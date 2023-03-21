@@ -8,19 +8,19 @@ import { Link } from "react-router-dom";
 
 export const Home = () => {
   return (
-    <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20">
+    <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 py-20">
       <div className="w-full md:w-3/4 flex flex-col gap-y-8">
         <div className="recommendBlock flex flex-col gap-y-2 md:gap-y-4">
           <div className="w-full md:w-fit bg-orange-300 rounded-lg p-2 px-4">
-            <h1>Co-Working แนะนำ</h1>
+            <h1 className="font-medium">Co-Working แนะนำ</h1>
           </div>
-          <div className="carousalBlock w-full ">
+          <Link to="/branch/1" className="carousalBlock w-full hover:shadow-lg">
             <img
               src={carousalPic2}
               alt=""
               className="object-cover object-center max-h-[400px] w-full rounded-md"
             />
-          </div>
+          </Link>
           <div className="listBlock w-full grid grid-cols-4 gap-2 md:gap-4">
             <Link
               to="/branch/1"
@@ -78,7 +78,7 @@ export const Home = () => {
 
         <div className="allDayAllNightBlock flex flex-col gap-y-2 md:gap-y-4">
           <div className="w-full md:w-fit bg-orange-300 rounded-lg p-2 px-4">
-            <h1>Co-Working เปิด 24 ชั่วโมง</h1>
+            <h1 className="font-medium">Co-Working เปิด 24 ชั่วโมง</h1>
           </div>
           <div className="listBlock grid grid-cols-4 gap-2 md:gap-4">
             <div className="cardList w-full bg-orange-100 rounded-md shadow-md transition ease-in-out duration-300 hover:scale-110">
@@ -132,13 +132,16 @@ export const Home = () => {
           </div>
         </div>
 
-        <div className="newsBlock">
+        <Link to="/someWhere" className="newsBlock relative hover:shadow-lg">
           <img
             src={newsPic1}
             alt=""
             className="object-cover object-center w-full min-h-[200px] rounded-lg"
           />
-        </div>
+          <div className="absolute w-2/5 h-1/3 flex justify-center items-center text-white text-xl bottom-4 right-4 bg-slate-200/30 rounded-lg p-4">
+            7 ข้อดีการใช้ Co-Working Space
+          </div>
+        </Link>
       </div>
     </div>
   );

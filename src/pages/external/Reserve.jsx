@@ -114,44 +114,50 @@ export const Reserve = () => {
         </div>
       </div>
 
-      <div className="popUp fixed w-full h-full top-0 left-0 flex justify-center items-center bg-slate-900/50 p-4">
-        {false && (
-          <div className="md:w-2/5 md:h-2/5 flex flex-col gap-y-4 bg-white rounded-lg p-8">
-            <h1 className="text-2xl text-center">Too fast too sleep สาขา 1</h1>
-            <div className="w-full flex justify-center">
-              <div className="w-fit flex flex-col gap-y-2">
-                <h1 className="text-xl">คุณเลือก ห้องประชุม 1</h1>
-                <p>วันที่ 1 january 2023 เวลา 09.00</p>
-                <p>รูปแบบการจอง : ครึ่งวัน </p>
-                <p>ราคา : 450 บาท </p>
+      {false && (
+        <div className="popUp fixed w-full h-full top-0 left-0 flex justify-center items-center bg-slate-900/50 p-4">
+          {false && (
+            <div className="md:w-2/5 md:h-2/5 flex flex-col gap-y-4 bg-white rounded-lg p-8">
+              <h1 className="text-2xl text-center">
+                Too fast too sleep สาขา 1
+              </h1>
+              <div className="w-full flex justify-center">
+                <div className="w-fit flex flex-col gap-y-2">
+                  <h1 className="text-xl">คุณเลือก ห้องประชุม 1</h1>
+                  <p>วันที่ 1 january 2023 เวลา 09.00</p>
+                  <p>รูปแบบการจอง : ครึ่งวัน </p>
+                  <p>ราคา : 450 บาท </p>
+                </div>
               </div>
+              <button className="w-full bg-green-300 hover:bg-green-400 rounded-full p-2 px-4">
+                ยืนยันการจอง
+              </button>
             </div>
-            <button className="w-full bg-green-300 hover:bg-green-400 rounded-full p-2 px-4">
-              ยืนยันการจอง
-            </button>
-          </div>
-        )}
+          )}
 
-        {true && (
-          <div className="md:w-2/5 md:h-2/5 flex flex-col gap-y-4 bg-white rounded-lg p-8">
-            <h1 className="text-2xl text-center">Too fast too sleep สาขา 1</h1>
-            <div className="w-full flex justify-center">
-              <div className="w-fit flex flex-col gap-y-2">
-                <h1 className="text-xl text-center text-green-400">
-                  ระบบได้ทำการยืนยันการจองสำเร็จ
-                </h1>
-                <p>
-                  กรุณาแสดงรหัส 01212123 ณ เคาท์เตอร์ที่ให้บริการ
-                  พร้อมชำระเงินที่ร้านค้า
-                </p>
+          {false && (
+            <div className="md:w-2/5 md:h-2/5 flex flex-col gap-y-4 bg-white rounded-lg p-8">
+              <h1 className="text-2xl text-center">
+                Too fast too sleep สาขา 1
+              </h1>
+              <div className="w-full flex justify-center">
+                <div className="w-fit flex flex-col gap-y-2">
+                  <h1 className="text-xl text-center text-green-400">
+                    ระบบได้ทำการยืนยันการจองสำเร็จ
+                  </h1>
+                  <p>
+                    กรุณาแสดงรหัส 01212123 ณ เคาท์เตอร์ที่ให้บริการ
+                    พร้อมชำระเงินที่ร้านค้า
+                  </p>
+                </div>
               </div>
+              <p className="h-full flex items-end justify-end">
+                Kowing Place ยินดีให้บริการ
+              </p>
             </div>
-            <p className="h-full flex items-end justify-end">
-              Kowing Place ยินดีให้บริการ
-            </p>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

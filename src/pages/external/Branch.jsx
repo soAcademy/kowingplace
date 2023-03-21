@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export const Branch = () => {
   return (
-    <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20">
+    <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20 md:py-20">
       <div className="w-full md:w-3/4 flex flex-col gap-y-8">
         <div className="carousalBlock w-full">
           <img
@@ -64,9 +64,9 @@ export const Branch = () => {
             </Link>
           </div>
         </div>
-        <div className="btnReserve">
+        <div className="btnReserve w-full flex justify-center">
           <Link to="/reserve/1">
-            <div className="w-full bg-green-300 hover:bg-green-400 text-center rounded-full p-4">
+            <div className="w-fit font-medium bg-green-300 hover:bg-green-400 text-center rounded-full p-2 px-4">
               จองล่วงหน้า
             </div>
           </Link>
