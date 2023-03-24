@@ -1,8 +1,6 @@
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
 import { useParams } from "react-router-dom";
-import loginPic from "@/assets/images/login.jpg";
-import signupPartnerPic from "@/assets/images/signup_partner.jpg";
 
 export const Signup = () => {
   const { typeUser } = useParams();
