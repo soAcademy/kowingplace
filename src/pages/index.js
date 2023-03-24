@@ -6,4 +6,5 @@ export * from "./external/Reserve";
 export * from "./internal/Welcome";
 export * from "./internal/SettingCo";
 export * from "./internal/SettingRoom";
+export * from "./internal/SettingTime";
 export * from "./internal/Main";

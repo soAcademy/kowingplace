@@ -1,26 +1,31 @@
-import React from "react";
-import headerPic from "@/assets/images/Co-Working-Space4.jpeg";
+import { useState, useEffect } from "react";
 
 export const SettingCo = () => {
+  const [imageUrl, setImageUrl] = useState("");
+
   return (
     <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20 md:py-20">
       <div className="w-full md:w-3/4 flex flex-col gap-y-8">
         <div className="uploadPicBlock flex flex-col gap-y-4">
-          <div className="imageBlock">
-            <img
-              src={headerPic}
-              alt=""
-              className="w-full h-[400px] object-center object-cover rounded-lg"
-            />
-          </div>
-          <div>
-            <label className="block">
-              <span className="sr-only">Choose profile photo</span>
-              <input
-                type="file"
-                className="block w-full text-sm text-font-primary file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-200 file:text-font-primary hover:file:bg-orange-300"
+          <div className="imageBlock h-[400px]">
+            {imageUrl !== "" && (
+              <img
+                src={imageUrl}
+                alt=""
+                className="w-full h-[400px] object-center object-cover rounded-lg"
               />
+            )}
+          </div>
+          <div className="flex items-center gap-x-2">
+            <label className="font-medium flex-none">
+              Your Co-Working Image
             </label>
+            <input
+              type="text"
+              className="border-2 w-full rounded-full p-2 px-4"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+            />
           </div>
         </div>
         <div className="descriptionBlock flex flex-col gap-y-4">
@@ -36,7 +41,7 @@ export const SettingCo = () => {
           </div>
 
           <div className="flex items-center gap-x-2">
-            <label className="font-medium">Contact: Co-Working Space</label>
+            <label className="font-medium">Tel Contact: Co-Working Space</label>
             <input type="text" className="border-2 rounded-full p-2 px-4" />
           </div>
         </div>

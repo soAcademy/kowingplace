@@ -9,6 +9,7 @@ import {
   Main,
   SettingRoom,
   SettingCo,
+  SettingTime,
 } from "./pages";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -30,6 +31,7 @@ function App() {
           element={<SettingCo />}
         />
         <Route exact path="/partner/setting/rooms" element={<SettingRoom />} />
+        <Route exact path="/partner/setting/time" element={<SettingTime />} />
       </Routes>
     </BrowserRouter>
   );

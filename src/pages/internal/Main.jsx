@@ -13,6 +13,9 @@ export const Main = () => {
           <Link to='/partner/setting/coworkingspace' className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full p-2 px-4">
             Co-Working Space
           </Link>
+          <Link to='/partner/setting/Time' className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full p-2 px-4">
+            Time
+          </Link>
           <Link to='/partner/setting/rooms' className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full p-2 px-4">
             Rooms
           </Link>
