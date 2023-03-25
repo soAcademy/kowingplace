@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const Login = () => {
+  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState(null);
+  const nevigate = useNavigate();
+
+  const Login = async () => {
+    const fireLoginData = await axios.post(
+      `${import.meta.env.VITE_API_BACKEND}/kowing/loginUserExternal`,
+      {
+        email: email,
+        password: password,
+      }
+    );
+
+    if (fireLoginData.status === 200) {
+      localStorage.setItem("token", fireLoginData.data.token);
+      nevigate("/");
+    } else {
+      alert("No Account");
+    }
+  };
+
   return (
     <div
       style={{
@@ -18,6 +40,8 @@ export const Login = () => {
             <input
               type="email"
               className="w-4/5 border-2 rounded-full p-2 px-4"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
           </div>
           <div className="flex items-center gap-x-2">
@@ -25,13 +49,18 @@ export const Login = () => {
             <input
               type="password"
               className="w-4/5 border-2 rounded-full p-2 px-4"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
             />
           </div>
           <div className="flex justify-between text-gray-400 text-[0.75rem]">
             <a href="#">Forget Password</a>
             <Link to="/customer/signup">Create New Account</Link>
           </div>
-          <button className="w-full font-medium bg-green-300 hover:bg-green-400 rounded-full p-2 px-4">
+          <button
+            className="w-full font-medium bg-green-300 hover:bg-green-400 rounded-full p-2 px-4"
+            onClick={() => Login()}
+          >
             Login
           </button>
           <button className="w-full flex justify-center items-center gap-x-2">
