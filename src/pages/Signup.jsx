@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { useParams } from "react-router-dom";
-import loginPic from "@/assets/images/login.jpg";
-import signupPartnerPic from "@/assets/images/signup_partner.jpg";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const Signup = () => {
   const { typeUser } = useParams();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
   const bgPicture =
     typeUser === "partner"
       ? "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
@@ -13,6 +18,27 @@ export const Signup = () => {
   const textForUser =
     typeUser === "partner" ? "สำหรับผู้ประกอบการ" : "สำหรับผู้ใช้งานทั่วไป";
   const inputHead = typeUser === "partner" ? "Co-Working Space Name" : "Name";
+
+  const handleSignup = async () => {
+    const payload = {
+      name: name,
+      email: email,
+      tel: phone,
+      password: password,
+    };
+
+    const fireSignup = await axios.post(
+      `${import.meta.env.VITE_API_BACKEND}/kowing/createUserExternal`,
+      payload
+    );
+
+    if (fireSignup.status === 200) {
+      navigate("/Login");
+    } else {
+      console.log(fireSignup);
+      alert("sign up fail");
+    }
+  };
 
   return (
     <div
@@ -33,6 +59,8 @@ export const Signup = () => {
             <input
               type="text"
               className="w-9/12 border-2 rounded-full p-2 px-4"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
             />
           </div>
           <div className="flex items-center gap-x-2">
@@ -40,6 +68,8 @@ export const Signup = () => {
             <input
               type="email"
               className="w-9/12 border-2 rounded-full p-2 px-4"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
           </div>
           <div className="flex items-center gap-x-2">
@@ -47,6 +77,8 @@ export const Signup = () => {
             <input
               type="text"
               className="w-9/12 border-2 rounded-full p-2 px-4"
+              onChange={(e) => setPhone(e.target.value)}
+              value={phone}
             />
           </div>
           <div className="flex items-center gap-x-2">
@@ -54,6 +86,8 @@ export const Signup = () => {
             <input
               type="password"
               className="w-9/12 border-2 rounded-full p-2 px-4"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
             />
           </div>
           <div className="flex items-center gap-x-2">
@@ -61,9 +95,14 @@ export const Signup = () => {
             <input
               type="password"
               className="w-9/12 border-2 rounded-full p-2 px-4"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={confirmPassword}
             />
           </div>
-          <button className="w-full font-medium bg-green-300 hover:bg-green-400 rounded-full p-2 px-4">
+          <button
+            className="w-full font-medium bg-green-300 hover:bg-green-400 rounded-full p-2 px-4"
+            onClick={() => handleSignup()}
+          >
             Sign-Up
           </button>
           <button className="w-full flex justify-center items-center gap-x-2">

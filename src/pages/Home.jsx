@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CardLink, Carousel } from "../components";
 import { FaRegThumbsUp, FaRegClock } from "react-icons/fa";
 import axios from "axios";
@@ -7,6 +7,7 @@ import axios from "axios";
 export const Home = () => {
   const [dataCoWorks, setDataCoWorks] = useState([]);
   const [_tempDataCoWorks, set_TempDataCoWorks] = useState([]);
+  const navigate = useNavigate();
 
   const topics = [
     {
@@ -23,7 +24,7 @@ export const Home = () => {
       maxBodyLength: Infinity,
       url: "http://localhost:7470/kowing/getCoworks",
       // url: "https://kowingplace-api.vercel.app/kowing/getCoworks",
-      headers: {},
+      headers: { token: localStorage.getItem("token") },
     };
 
     axios
@@ -37,6 +38,12 @@ export const Home = () => {
         set_TempDataCoWorks(_result);
       })
       .catch((error) => {
+        //ลบ token ที่หมดอายุแล้วใน localstorage
+        if (error.response.data.isDeleteToken) {
+          localStorage.removeItem("token");
+          //go back to login page
+          navigate("/Login");
+        }
         console.log(error);
       });
   }, []);
