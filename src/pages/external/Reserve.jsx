@@ -59,7 +59,7 @@ export const Reserve = () => {
       const config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://localhost:7470/kowing/getRoomByCoWorkId",
+        url: `${import.meta.env.VITE_API_BACKEND}/kowing/getRoomByCoWorkId`,
         headers: {
           "Content-Type": "application/json",
         },

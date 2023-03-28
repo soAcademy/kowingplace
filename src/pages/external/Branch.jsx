@@ -15,7 +15,7 @@ export const Branch = () => {
     const config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "http://localhost:7470/kowing/getCoWorkUserChoose",
+      url: `${import.meta.env.VITE_API_BACKEND}/kowing/getCoWorkUserChoose`,
       headers: {
         "Content-Type": "application/json",
       },

@@ -22,8 +22,7 @@ export const Home = () => {
     const config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "http://localhost:7470/kowing/getCoworks",
-      // url: "https://kowingplace-api.vercel.app/kowing/getCoworks",
+      url: `${import.meta.env.VITE_API_BACKEND}/kowing/getCoworks`,
       headers: { token: localStorage.getItem("token") },
     };
 
@@ -66,7 +65,7 @@ export const Home = () => {
             />
           )}
           <div className="w-full">
-            <div className="container">
+            <div className="">
               <div className="flex flex-no-wrap gap-x-2 md:gap-x-5 overflow-x-scroll scrolling-touch items-start pb-4">
                 {dataCoWorks?.map((data, idx) => (
                   <CardLink key={`data_${idx}`} data={data} />
@@ -82,7 +81,7 @@ export const Home = () => {
             <FaRegClock />
           </div>
           <div className="w-full">
-            <div className="container">
+            <div className="">
               <div className="flex flex-no-wrap gap-x-2 md:gap-x-5 overflow-x-scroll scrolling-touch items-start pb-4">
                 {_tempDataCoWorks?.map((data, idx) => (
                   <CardLink key={`data_${idx}`} data={data} />

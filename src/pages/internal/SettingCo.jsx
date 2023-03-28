@@ -11,6 +11,8 @@ export const SettingCo = () => {
     tel: "",
     picture: "",
   });
+  const [dataFacilities, setDataFacilities] = useState([]);
+  const [checkedFac, setCheckFac] = useState([]);
 
   console.log("userId", userId);
 
@@ -20,32 +22,67 @@ export const SettingCo = () => {
 
   //get old data
   const getOldData = () => {
-    const data = JSON.stringify({
-      userInternalId: userId,
-    });
+    const fetchData = () => {
+      const data = JSON.stringify({
+        userInternalId: userId,
+      });
 
-    const config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: "http://localhost:7470/kowing/getCoworkByUserId",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
+      const config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `${import.meta.env.VITE_API_BACKEND}/kowing/getCoworkByUserId`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      axios
+        .request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+          response.data.coWork !== null
+            ? setDataCoWork(response.data.coWork)
+            : setDataCoWork(dataCoWork);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
 
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        response.data.coWork !== null
-          ? setDataCoWork(response.data.coWork)
-          : setDataCoWork(dataCoWork);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const getFacilities = () => {
+      const config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `${import.meta.env.VITE_API_BACKEND}/kowing/getFacilities`,
+        headers: {},
+        data: "",
+      };
+
+      axios
+        .request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+          setDataFacilities(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
+    fetchData();
+    getFacilities();
   };
+
+  useEffect(() => {
+    // setCheckFac(dataCoWork?.FacilityToCoWork?.map((r) => r.facilityId));
+    const _temp =
+      dataCoWork != null
+        ? dataCoWork?.FacilityToCoWork?.map((r) => r.facilityId)
+        : [];
+    console.log("_temp pull fac", _temp);
+    setCheckFac(_temp);
+  }, [dataCoWork]);
 
   //create // update detail
   const submitBtn = (type) => {
@@ -64,17 +101,13 @@ export const SettingCo = () => {
       tel: dataCoWork.tel,
       picture: dataCoWork.picture,
       userInternalId: userId,
-      //mockup
-      facilityToCoworkId: 0,
-      closeId: 0,
-      openId: 0,
-      openClose24HoursId: false,
+      facilities: checkedFac,
     });
-    console.log(data);
+    console.log("data", data);
     const config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: `http://localhost:7470/kowing/${urlMethod}`,
+      url: `${import.meta.env.VITE_API_BACKEND}/kowing/${urlMethod}`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -96,6 +129,16 @@ export const SettingCo = () => {
     const newData = { ...dataCoWork };
     newData[key] = e.target.value;
     setDataCoWork(newData);
+  };
+
+  const updateCheckBox = (id) => {
+    console.log("checkedFac", checkedFac);
+    const _temp =
+      checkedFac.filter((r) => r === id).length > 0
+        ? checkedFac.filter((r) => r !== id)
+        : [...checkedFac, id];
+    console.log("updateCheckBox", _temp);
+    setCheckFac(_temp);
   };
 
   return (
@@ -179,22 +222,24 @@ export const SettingCo = () => {
                 Facility Lists
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3">
-                {[...Array(8)].map((r, idx) => (
+                {dataFacilities.map((r, idx) => (
                   <div
-                    key={`dicCheck_${idx}`}
+                    key={`facCheck_${idx}`}
                     className="flex items-center mb-4"
                   >
                     <input
                       id={`check_${idx}`}
                       type="checkbox"
-                      value={idx}
-                      className="w-4 h-4 text-font-primary bg-gray-100 border-gray-300 rounded "
+                      value={r.id}
+                      className="w-4 h-4 text-font-primary bg-gray-100 border-gray-300 rounded"
+                      checked={checkedFac?.includes(r.id)}
+                      onChange={(e) => updateCheckBox(Number(e.target.value))}
                     />
                     <label
                       htmlFor={`check_${idx}`}
                       className="ml-2 text-sm text-font-primary"
                     >
-                      checkbox_{idx}
+                      {r.name}
                     </label>
                   </div>
                 ))}
