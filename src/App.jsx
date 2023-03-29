@@ -1,5 +1,5 @@
 import { Navbar } from "./components";
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import {
   Home,
   Branch,
@@ -18,11 +18,17 @@ export const ContextUserId = createContext();
 
 export const App = () => {
   const [userId, setUserId] = useState(27); //
+  const [token, setToken] = useState(null);
+  const getLocalToken = localStorage.getItem("token");
+
+  useEffect(() => {
+    setToken(getLocalToken);
+  }, [getLocalToken]);
 
   return (
     <BrowserRouter>
       <ContextUserId.Provider value={{ userId, setUserId }}>
-        <Navbar />
+        <Navbar token={token} setToken={setToken} />
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/Login" element={<Login />} />
