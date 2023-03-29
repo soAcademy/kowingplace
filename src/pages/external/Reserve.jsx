@@ -84,40 +84,66 @@ export const Reserve = () => {
   useEffect(() => {
     const dataMock = {
       typeTime: [1, 3, 6, 10],
-      slotTime: [8, 9, 10, 11, 12, 15, 16, 17],
+      slotTime: [8, 9, 10, 11, 12, 15, 16, 17, 18],
       open: 8,
       close: 18,
     };
 
     const genTimeChoice = () => {
       console.log("setAvailableStartTime");
-      const startTime = dataMock.typeTime?.map((type) => {
-        const inOpenTime = dataMock.slotTime.filter(
-          (slot) => slot + type <= dataMock.close
-        );
-        // //console.log("inOpenTime", inOpenTime);
-
-        const available = inOpenTime.filter((r) => {
-          // //console.log("type", type);
-          const checkEachHour = [...Array(type)].map((k, idx) =>
-            dataMock.slotTime.includes(r + idx)
-          );
-          // //console.log("checkEachHour", checkEachHour);
-          // //console.log(
-          // //  "result",
-          // //  checkEachHour.every((r) => r)
-          // //);
-          return checkEachHour.every((r) => r);
-        });
-
-        // //console.log({ type: type, start: available });
-
-        return { type: type, start: available };
-      });
-      console.log(startTime);
-      setAvailableStartTime(startTime);
+      console.log("selectDateTime", selectDateTime);
       console.log("selectRoom", selectRoom);
-      setTabSelect("time");
+      const currentHour = new Date().getHours();
+      console.log("currentHour", currentHour);
+      const currentYear = new Date().getFullYear();
+      const currentMonth = new Date().getMonth() + 1;
+      const currentDate = new Date().getDate();
+
+      const submitTime =
+        selectDateTime.year >= currentYear &&
+        selectDateTime.month >= currentMonth &&
+        selectDateTime.date > currentDate
+          ? new Date(
+              selectDateTime.year,
+              selectDateTime.month - 1,
+              selectDateTime.date,
+              0,
+              0,
+              0
+            )
+          : new Date(
+              selectDateTime.year,
+              selectDateTime.month - 1,
+              selectDateTime.date,
+              currentHour + 1,
+              0,
+              0
+            );
+      console.log("submitTime", submitTime.toString());
+      console.log("submitTime.toISOString()", submitTime.toISOString());
+
+      const data = JSON.stringify({
+        startTime: submitTime.toISOString(),
+        branchToRoomId: 1,
+      });
+
+      const config = {
+        method: "post",
+        // url: "http://localhost:7470/kowing/getCoWorkUserChoose",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      axios
+        .request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
 
     selectDateTime.year !== 0 &&
@@ -127,6 +153,36 @@ export const Reserve = () => {
       selectRoom !== 0 &&
       genTimeChoice();
   }, [selectDateTime, selectRoom]);
+
+  useEffect(() => {
+    const startTime = dataMock.typeTime?.map((type) => {
+      const inOpenTime = dataMock.slotTime.filter(
+        (slot) => slot + type <= dataMock.close
+      );
+      // //console.log("inOpenTime", inOpenTime);
+
+      const available = inOpenTime.filter((r) => {
+        // //console.log("type", type);
+        const checkEachHour = [...Array(type)].map((k, idx) =>
+          dataMock.slotTime.includes(r + idx)
+        );
+        // //console.log("checkEachHour", checkEachHour);
+        // //console.log(
+        // //  "result",
+        // //  checkEachHour.every((r) => r)
+        // //);
+        return checkEachHour.every((r) => r);
+      });
+
+      // //console.log({ type: type, start: available });
+
+      return { type: type, start: available };
+    });
+    console.log(startTime);
+    setAvailableStartTime(startTime);
+    console.log("selectRoom", selectRoom);
+    setTabSelect("time");
+  }, [input]);
 
   useEffect(() => {
     selectDateTime.year !== 0 &&

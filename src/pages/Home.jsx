@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CardLink, Carousel } from "../components";
 import { FaRegThumbsUp, FaRegClock } from "react-icons/fa";
@@ -19,11 +19,16 @@ export const Home = () => {
   ];
 
   useEffect(() => {
+    const data = "";
+
     const config = {
       method: "post",
       maxBodyLength: Infinity,
+      // url: "http://localhost:7470/kowing/getCoworks",
       url: `${import.meta.env.VITE_API_BACKEND}/kowing/getCoworks`,
-      headers: { token: localStorage.getItem("token") },
+      // headers: { token: localStorage.getItem("token") },
+      headers: {},
+      data: data,
     };
 
     axios
@@ -31,13 +36,12 @@ export const Home = () => {
       .then((response) => {
         // console.log(JSON.stringify(response.data));
         const result = response.data.sort((a, b) => Math.random() - 0.5);
-        // console.log(result);
         setDataCoWorks(result);
-        const _result = result.sort((a, b) => Math.random() - 0.5);
+        const _result = result.sort((a, b) => Math.random() - 0.3);
         set_TempDataCoWorks(_result);
       })
       .catch((error) => {
-        //ลบ token ที่หมดอายุแล้วใน localstorage
+        // //ลบ token ที่หมดอายุแล้วใน localstorage
         if (error.response.data.isDeleteToken) {
           localStorage.removeItem("token");
           //go back to login page

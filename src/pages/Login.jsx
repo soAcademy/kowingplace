@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
+import { useState, useContext } from "react";
+// import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ContextUserId } from "../App";
 
 export const Login = () => {
-  const [password, setPassword] = useState(null);
-  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const nevigate = useNavigate();
+  const { setUserData } = useContext(ContextUserId);
 
   const Login = async () => {
     const fireLoginData = await axios.post(
@@ -17,8 +19,11 @@ export const Login = () => {
       }
     );
 
+    console.log("fireLoginData", fireLoginData);
+
     if (fireLoginData.status === 200) {
       localStorage.setItem("token", fireLoginData.data.token);
+      setUserData(fireLoginData.data.user);
       nevigate("/");
     } else {
       alert("No Account");
@@ -58,15 +63,15 @@ export const Login = () => {
             <Link to="/customer/signup">Create New Account</Link>
           </div>
           <button
-            className="w-full font-medium bg-green-300 hover:bg-green-400 rounded-full p-2 px-4"
+            className="w-full font-medium bg-green-300 hover:bg-green-400 rounded-full duration-300 p-2 px-4"
             onClick={() => Login()}
           >
             Login
           </button>
-          <button className="w-full flex justify-center items-center gap-x-2">
+          {/* <button className="w-full flex justify-center items-center gap-x-2">
             <p className="text-[0.75rem]">Login with</p>
             <FcGoogle className="text-3xl" />
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

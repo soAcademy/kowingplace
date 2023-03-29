@@ -17,11 +17,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 export const ContextUserId = createContext();
 
 export const App = () => {
-  const [userId, setUserId] = useState(27); //
+  const [userData, setUserData] = useState({ id: 11, name: "s", email: "ss" }); //
 
   return (
     <BrowserRouter>
-      <ContextUserId.Provider value={{ userId, setUserId }}>
+      <ContextUserId.Provider value={{ userData, setUserData }}>
         <Navbar />
         <Routes>
           <Route exact path="/" element={<Home />} />
