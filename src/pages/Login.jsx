@@ -1,5 +1,5 @@
-import { useState, useContext } from "react";
-// import { FcGoogle } from "react-icons/fc";
+import React, { useState, useContext } from "react";
+import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ContextUserId } from "../App";
@@ -8,7 +8,7 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const nevigate = useNavigate();
-  const { setUserData } = useContext(ContextUserId);
+  const { setUserId } = useContext(ContextUserId);
 
   const Login = async () => {
     const fireLoginData = await axios.post(
@@ -18,12 +18,14 @@ export const Login = () => {
         password: password,
       }
     );
-
-    console.log("fireLoginData", fireLoginData);
-
+    console.log("fireLogin", fireLoginData);
     if (fireLoginData.status === 200) {
       localStorage.setItem("token", fireLoginData.data.token);
-      setUserData(fireLoginData.data.user);
+      localStorage.setItem(
+        "userData",
+        JSON.stringify(fireLoginData.data.userData)
+      );
+      setUserId(fireLoginData.data.userData);
       nevigate("/");
     } else {
       alert("No Account");
