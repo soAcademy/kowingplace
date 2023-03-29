@@ -17,7 +17,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 export const ContextUserId = createContext();
 
 export const App = () => {
-  const [userId, setUserId] = useState(27); //
+  const [userId, setUserId] = useState({}); //
   const [token, setToken] = useState(null);
   const getLocalToken = localStorage.getItem("token");
 
