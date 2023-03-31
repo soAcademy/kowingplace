@@ -113,7 +113,7 @@ export const Reserve = () => {
 
       const config = {
         method: "post",
-        url: "http://localhost:7470/kowing/bookDurationRoom",
+        url: `${import.meta.env.VITE_API_BACKEND}/kowing/bookDurationRoom`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -212,7 +212,7 @@ export const Reserve = () => {
     const config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "http://localhost:7470/kowing/getVerifyCodeByUserConfirmBooking",
+      url: `${import.meta.env.VITE_API_BACKEND}/kowing/getVerifyCodeByUserConfirmBooking`,
       headers: {
         "Content-Type": "application/json",
       },
