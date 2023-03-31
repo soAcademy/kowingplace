@@ -10,14 +10,16 @@ export const Login = () => {
   const nevigate = useNavigate();
   const { setUserId } = useContext(ContextUserId);
   const { type } = useParams();
+  console.log(type);
 
-  const endpoint =
-    type === "external"
-      ? "loginUserExternal"
-      : type === "internal"
+  const typeURL =
+    type === "internal"
       ? "loginUserInternal"
+      : type === "external"
+      ? "loginUserExternal"
       : "";
-  const URL = `${import.meta.env.VITE_API_BACKEND}/kowing/${endpoint}`;
+  const URL = `${import.meta.env.VITE_API_BACKEND}/kowing/${typeURL}`;
+  // alert(URL);
   const Login = async () => {
     const fireLoginData = await axios.post(URL, {
       email: email,
@@ -31,7 +33,11 @@ export const Login = () => {
         JSON.stringify(fireLoginData.data.userData)
       );
       setUserId(fireLoginData.data.userData);
-      nevigate("/");
+      if (type === "external") {
+        nevigate("/");
+      } else {
+        nevigate("/partner/main");
+      }
     } else {
       alert("No Account");
     }
