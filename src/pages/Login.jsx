@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ContextUserId } from "../App";
 
@@ -9,15 +9,23 @@ export const Login = () => {
   const [email, setEmail] = useState(null);
   const nevigate = useNavigate();
   const { setUserId } = useContext(ContextUserId);
+  const { type } = useParams();
+  console.log(type);
 
+  const typeURL =
+    type === "internal"
+      ? "loginUserInternal"
+      : type === "external"
+      ? "loginUserExternal"
+      : "";
+  const URL = `${import.meta.env.VITE_API_BACKEND}/kowing/${typeURL}`;
+  // alert(URL);
   const Login = async () => {
-    const fireLoginData = await axios.post(
-      `${import.meta.env.VITE_API_BACKEND}/kowing/loginUserExternal`,
-      {
-        email: email,
-        password: password,
-      }
-    );
+    const fireLoginData = await axios.post(URL, {
+      email: email,
+      password: password,
+    });
+
     console.log("fireLogin", fireLoginData);
     if (fireLoginData.status === 200) {
       localStorage.setItem("token", fireLoginData.data.token);
@@ -26,7 +34,11 @@ export const Login = () => {
         JSON.stringify(fireLoginData.data.userData)
       );
       setUserId(fireLoginData.data.userData);
-      nevigate("/");
+      if (type === "external") {
+        nevigate("/");
+      } else {
+        nevigate("/partner/main");
+      }
     } else {
       alert("No Account");
     }
