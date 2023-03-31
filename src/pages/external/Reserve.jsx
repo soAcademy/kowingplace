@@ -82,12 +82,12 @@ export const Reserve = () => {
 
   //set btn time available
   useEffect(() => {
-    const dataMock = {
-      typeTime: [1, 3, 6, 10],
-      slotTime: [8, 9, 10, 11, 12, 15, 16, 17, 18],
-      open: 8,
-      close: 18,
-    };
+    // const dataMock = {
+    //   typeTime: [1, 3, 6, 10],
+    //   slotTime: [8, 9, 10, 11, 12, 15, 16, 17, 18],
+    //   open: 8,
+    //   close: 18,
+    // };
 
     const genTimeChoice = () => {
       console.log("setAvailableStartTime");
@@ -124,26 +124,30 @@ export const Reserve = () => {
 
       const data = JSON.stringify({
         startTime: submitTime.toISOString(),
-        branchToRoomId: 1,
+        day: 1,
+        roomId: 1,
+        coWorkId: 1,
       });
+      console.log("data", data);
 
-      const config = {
-        method: "post",
-        // url: "http://localhost:7470/kowing/getCoWorkUserChoose",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
+      // const config = {
+      //   method: "post",
+      //   url: "http://localhost:7470/kowing/bookDurationRoom",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   data: data,
+      // };
 
-      axios
-        .request(config)
-        .then((response) => {
-          console.log(JSON.stringify(response.data));
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      // axios
+      //   .request(config)
+      //   .then((response) => {
+      //     console.log(JSON.stringify(response.data));
+      //     setTimeAvailableDB(response.data);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
     };
 
     selectDateTime.year !== 0 &&
@@ -182,7 +186,7 @@ export const Reserve = () => {
     setAvailableStartTime(startTime);
     console.log("selectRoom", selectRoom);
     setTabSelect("time");
-  }, [input]);
+  }, [timeAvailableDB]);
 
   useEffect(() => {
     selectDateTime.year !== 0 &&

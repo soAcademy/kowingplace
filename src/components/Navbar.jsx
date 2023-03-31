@@ -25,12 +25,14 @@ export const Navbar = (props) => {
         </Link>
         <Link to="/partner/main">Home (Partner)</Link>
         <Link to="/partner/welcome">Partner</Link>
-        {userId.userId !== null ? (
-          <Link to="/login" onClick={() => deleteToken()}>
-            Log out
+      </div>
+      <div className="flex items-center">
+        {userId?.userId > 0 ? (
+          <Link to="/login/external" onClick={() => deleteToken()}>
+            Logout
           </Link>
         ) : (
-          <Link to="/login">Login</Link>
+          <Link to="/login/external">Login</Link>
         )}
       </div>
     </div>

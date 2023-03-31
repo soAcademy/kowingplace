@@ -31,7 +31,7 @@ export const App = () => {
         <Navbar token={token} setToken={setToken} />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/Login" element={<Login />} />
+          <Route exact path="/Login/:type" element={<Login />} />
           <Route exact path="/branch/:branchId" element={<Branch />} />
           <Route exact path="/reserve/:branchId" element={<Reserve />} />
           <Route exact path="/:typeUser/signup" element={<Signup />} />
