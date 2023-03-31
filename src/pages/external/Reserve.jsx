@@ -1,12 +1,14 @@
 import { useParams } from "react-router-dom";
 import { Calendar } from "../../components";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import logo from "@/assets/images/letter-k.png";
 import axios from "axios";
 import { FaUsers } from "react-icons/fa";
+import { ContextUserId } from "../../App";
 
 export const Reserve = () => {
   const { branchId } = useParams();
+  const { userId } = useContext(ContextUserId);
   const [timeAvailableDB, setTimeAvailableDB] = useState({});
   const [availableStartTime, setAvailableStartTime] = useState([]);
   const [tabSelect, setTabSelect] = useState("room");
@@ -21,8 +23,39 @@ export const Reserve = () => {
     day: 0,
     key: 0,
   });
-
   const modalRef = useRef(null);
+
+  console.log("userId", userId);
+
+  //get all room of branch id
+  useEffect(() => {
+    const getAllRoom = () => {
+      const data = JSON.stringify({
+        coWorkId: Number(branchId),
+      });
+
+      const config = {
+        method: "post",
+        url: `${import.meta.env.VITE_API_BACKEND}/kowing/getRoomByCoWorkId`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      axios
+        .request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+          setDataRooms(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
+    getAllRoom();
+  }, []);
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
@@ -44,22 +77,43 @@ export const Reserve = () => {
       }
     };
     document.addEventListener("mousedown", checkIfClickedOutside);
+
     return () => {
       document.removeEventListener("mousedown", checkIfClickedOutside);
     };
   }, [modal]);
 
-  //get all room of branch id
+  //set btn time available
   useEffect(() => {
-    const getAllRoom = () => {
+    const genTimeChoice = () => {
+      console.log("setAvailableStartTime");
+      console.log("selectDateTime", selectDateTime);
+      console.log("selectRoom", selectRoom);
+      const currentHour = new Date().getHours();
+      console.log("currentHour", currentHour);
+
+      const submitTime = new Date(
+        selectDateTime.year,
+        selectDateTime.month - 1,
+        selectDateTime.date,
+        0,
+        0,
+        0
+      );
+      console.log("submitTime", submitTime.toString());
+      console.log("submitTime.toISOString()", submitTime.toISOString());
+
       const data = JSON.stringify({
-        coWorkId: Number(branchId),
+        startTime: submitTime.toISOString(),
+        day: selectDateTime.day,
+        roomId: selectRoom,
+        coWorkId: dataRooms.BranchToRoom[0].coWorkId,
       });
+      console.log("data", data);
 
       const config = {
         method: "post",
-        maxBodyLength: Infinity,
-        url: `${import.meta.env.VITE_API_BACKEND}/kowing/getRoomByCoWorkId`,
+        url: "http://localhost:7470/kowing/bookDurationRoom",
         headers: {
           "Content-Type": "application/json",
         },
@@ -69,55 +123,13 @@ export const Reserve = () => {
       axios
         .request(config)
         .then((response) => {
-          // console.log(JSON.stringify(response.data));
-          setDataRooms(response.data);
+          console.log(JSON.stringify(response.data));
+          console.log("result get available time", response.data);
+          setTimeAvailableDB(response.data);
         })
         .catch((error) => {
           console.log(error);
         });
-    };
-
-    getAllRoom();
-  }, []);
-
-  //set btn time available
-  useEffect(() => {
-    const dataMock = {
-      typeTime: [1, 3, 6, 10],
-      slotTime: [8, 9, 10, 11, 12, 15, 16, 17],
-      open: 8,
-      close: 18,
-    };
-
-    const genTimeChoice = () => {
-      console.log("setAvailableStartTime");
-      const startTime = dataMock.typeTime?.map((type) => {
-        const inOpenTime = dataMock.slotTime.filter(
-          (slot) => slot + type <= dataMock.close
-        );
-        // //console.log("inOpenTime", inOpenTime);
-
-        const available = inOpenTime.filter((r) => {
-          // //console.log("type", type);
-          const checkEachHour = [...Array(type)].map((k, idx) =>
-            dataMock.slotTime.includes(r + idx)
-          );
-          // //console.log("checkEachHour", checkEachHour);
-          // //console.log(
-          // //  "result",
-          // //  checkEachHour.every((r) => r)
-          // //);
-          return checkEachHour.every((r) => r);
-        });
-
-        // //console.log({ type: type, start: available });
-
-        return { type: type, start: available };
-      });
-      console.log(startTime);
-      setAvailableStartTime(startTime);
-      console.log("selectRoom", selectRoom);
-      setTabSelect("time");
     };
 
     selectDateTime.year !== 0 &&
@@ -127,6 +139,47 @@ export const Reserve = () => {
       selectRoom !== 0 &&
       genTimeChoice();
   }, [selectDateTime, selectRoom]);
+
+  useEffect(() => {
+    const getStartTime = () => {
+      const startTime = timeAvailableDB.duration
+        ?.sort((a, b) => a.duration - b.duration)
+        .map((type) => {
+          const inOpenTime = timeAvailableDB.slotTime.filter(
+            (slot) => slot + type.duration <= timeAvailableDB.close
+          );
+          console.log("inOpenTime", inOpenTime);
+
+          const available = inOpenTime.filter((r) => {
+            console.log("type", type.duration);
+            const checkEachHour = [...Array(type.duration)].map((k, idx) =>
+              timeAvailableDB.slotTime.includes(r + idx)
+            );
+            console.log("checkEachHour", checkEachHour);
+            console.log(
+              "result",
+              checkEachHour.every((r) => r)
+            );
+            return checkEachHour.every((r) => r);
+          });
+
+          // //console.log({ type: type, start: available });
+
+          return {
+            roomRateId: type.roomRateId,
+            type: type.duration,
+            start: available,
+          };
+        });
+
+      console.log(startTime);
+      setAvailableStartTime(startTime);
+      console.log("selectRoom", selectRoom);
+      setTabSelect("time");
+    };
+
+    Object.keys(timeAvailableDB).length > 0 && getStartTime();
+  }, [timeAvailableDB]);
 
   useEffect(() => {
     selectDateTime.year !== 0 &&
@@ -145,6 +198,36 @@ export const Reserve = () => {
 
   const reserveFunc = () => {
     //
+    const data = JSON.stringify({
+      startTime: new Date(
+        `${selectDateTime.year}-${selectDateTime.month}-${selectDateTime.date} ${selectTime.time}:00:00.000`
+      ).toISOString(),
+      roomId: selectRoom,
+      coWorkId: Number(branchId),
+      roomRateId: selectTime.roomRateId,
+      userExId: 19,
+      // userExId: userId.userId,
+    });
+    console.log("reserveFunc", data);
+    const config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "http://localhost:7470/kowing/getVerifyCodeByUserConfirmBooking",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     setModal({ show: true, page: "result" });
   };
 
@@ -214,7 +297,7 @@ export const Reserve = () => {
                 </div>
                 {selectRoom != 0 && (
                   <div className="timeList overflow-y-auto md:max-h-[400px]">
-                    {availableStartTime.map((type) => (
+                    {availableStartTime?.map((type) => (
                       <div
                         className="flex flex-col gap-y-2 mb-2"
                         key={`type_${type.type}`}
@@ -227,6 +310,7 @@ export const Reserve = () => {
                             key={`typeStart_${type.type}_${time}`}
                             onClick={() =>
                               setSelectTime({
+                                roomRateId: type.roomRateId,
                                 type: type.type,
                                 time: time,
                               })

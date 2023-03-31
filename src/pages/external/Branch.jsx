@@ -6,6 +6,7 @@ import { FaMapMarker, FaPhoneAlt } from "react-icons/fa";
 export const Branch = () => {
   const { branchId } = useParams();
   const [dataCoWork, setDataCoWork] = useState({});
+  const [facilities, setFacilities] = useState([]);
 
   useEffect(() => {
     const data = JSON.stringify({
@@ -25,22 +26,14 @@ export const Branch = () => {
     axios
       .request(config)
       .then((response) => {
-        // console.log(JSON.stringify(response.data));
+        console.log(JSON.stringify(response.data));
         setDataCoWork(response.data);
+        setFacilities(response.data.FacilityToCoWork);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-
-  const branchData = {
-    facilities: [
-      { id: 1, name: "wifi" },
-      { id: 2, name: "ห้องประชุม" },
-      { id: 3, name: "ที่จอดรถ" },
-      { id: 4, name: "24ชั่วโมง" },
-    ],
-  };
 
   return (
     <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20">
@@ -49,7 +42,7 @@ export const Branch = () => {
           <img
             src={dataCoWork.picture}
             alt=""
-            className="object-cover object-center max-h-[400px] w-full transition duration-300 rounded-md"
+            className="object-cover object-center h-[400px] w-full transition duration-300 rounded-md"
           />
         </div>
         <div className="branchDetail flex flex-col gap-y-4">
@@ -74,13 +67,13 @@ export const Branch = () => {
             <h1 className="text-xl">สิ่งอำนวยความสะดวก</h1>
           </div>
           <div className="flex flex-wrap gap-2 bg-orange-100 rounded-md p-2 md:p-4">
-            {branchData.facilities.map((facility, idx) => (
+            {facilities.map((facility, idx) => (
               <Link
                 key={`facirity_${idx}`}
-                to={`/search/facility/${facility.id}`}
+                to={`/search/facility/${facility.facility.id}`}
                 className="bg-orange-200 hover:bg-orange-300 rounded-lg p-2 px-4"
               >
-                {facility.name}
+                {facility.facility.name}
               </Link>
             ))}
           </div>

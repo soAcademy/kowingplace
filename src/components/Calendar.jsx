@@ -34,6 +34,7 @@ export const Calendar = ({ selectDateTime, setSelectDateTime }) => {
   }, []);
 
   useEffect(() => {
+    console.log("yearData", yearData);
     if (monthData !== 0 && yearData !== 0) {
       setAmountDateThisMonth(new Date(yearData, monthData, 0).getDate());
       setAmountDateLastMonth(
@@ -192,8 +193,11 @@ export const Calendar = ({ selectDateTime, setSelectDateTime }) => {
                         : "bg-orange-300/30"
                     } ${
                       r.year >= new Date().getFullYear() &&
-                      r.month >= new Date().getMonth() + 1 &&
-                      r.date >= new Date().getDate()
+                      (r.month >= new Date().getMonth() + 1 ||
+                        r.year > new Date().getFullYear()) &&
+                      (r.date >= new Date().getDate() ||
+                        r.month > new Date().getMonth() + 1 ||
+                        r.year > new Date().getFullYear())
                         ? "hover:bg-orange-400/50"
                         : "cursor-not-allowed"
                     } rounded-full p-4`}

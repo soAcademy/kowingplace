@@ -23,14 +23,13 @@ export const Navbar = (props) => {
         <Link to="/">
           <img src={Logo} className="w-[35px]" />
         </Link>
-        {/* <Link to="/">Home</Link> */}
         <Link to="/partner/main">Home (Partner)</Link>
-      </div>
-      <div className="flex items-center gap-x-4">
         <Link to="/partner/welcome">Partner</Link>
+      </div>
+      <div className="flex items-center">
         {userId?.userId > 0 ? (
           <Link to="/login/external" onClick={() => deleteToken()}>
-            Log out
+            Logout
           </Link>
         ) : (
           <Link to="/login/external">Login</Link>
