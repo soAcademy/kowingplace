@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { ContextUserId } from "@/App.jsx";
 import axios from "axios";
+import { PartnerMainNav } from "../../components";
 
 export const SettingCo = () => {
   const { userId } = useContext(ContextUserId);
@@ -144,7 +145,11 @@ export const SettingCo = () => {
   return (
     <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20 md:py-20">
       <div className="w-full md:w-3/4 flex flex-col gap-y-4">
-        <div className="uploadPicBlock flex flex-col gap-y-4">
+        <div className="header">
+          <h1 className="text-2xl text-center">{dataCoWork?.coWork?.name}</h1>
+        </div>
+        <PartnerMainNav />
+        <div className="uploadPicBlock flex flex-col gap-y-4 mt-8">
           <div className="flex items-center gap-x-2">
             <label className="font-medium flex-none">
               Your Co-Working Name

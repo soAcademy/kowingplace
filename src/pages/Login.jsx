@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ContextUserId } from "../App";
@@ -9,13 +9,13 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const nevigate = useNavigate();
   const { setUserId } = useContext(ContextUserId);
-  const { type } = useParams();
-  console.log(type);
+  const { typeUser } = useParams();
+  console.log(typeUser);
 
   const typeURL =
-    type === "internal"
+  typeUser === "partner"
       ? "loginUserInternal"
-      : type === "external"
+      : typeUser === "user"
       ? "loginUserExternal"
       : "";
   const URL = `${import.meta.env.VITE_API_BACKEND}/kowing/${typeURL}`;
@@ -33,7 +33,7 @@ export const Login = () => {
         JSON.stringify(fireLoginData.data.userData)
       );
       setUserId(fireLoginData.data.userData);
-      if (type === "external") {
+      if (typeUser === "user") {
         nevigate("/");
       } else {
         nevigate("/partner/main");
@@ -51,22 +51,23 @@ export const Login = () => {
       className="w-full h-screen bg-cover bg-no-repeat bg-[center_left_-15rem] md:bg-center flex justify-center items-center text-font-primary font-prompt text-sm p-4 pt-20"
     >
       <div className="fixed w-full h-full top-0 left-0 flex justify-center items-center p-4">
-        <div className="md:w-2/5 flex flex-col gap-y-4 bg-white rounded-lg shadow-lg p-8">
+        <div className="md:w-5/12 lg:w-1/3 flex flex-col gap-y-4 bg-white rounded-lg shadow-lg p-8">
           <h1 className="text-2xl text-center">LOGIN</h1>
-          <div className="flex items-center gap-x-2">
-            <label className="w-1/5">E-mail</label>
+          {typeUser === "partner" && <h1 className="text-center">Partner</h1>}
+          <div className="flex flex-col md:flex-row md:items-center gap-2 ">
+            <label className="min-w-fit w-1/5">E-mail</label>
             <input
               type="email"
-              className="w-4/5 border-2 rounded-full p-2 px-4"
+              className="w-full md:w-4/5 border-2 rounded-full p-2 px-4"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
           </div>
-          <div className="flex items-center gap-x-2">
-            <label className="w-1/5">Password</label>
+          <div className="flex flex-col md:flex-row md:items-center gap-2">
+            <label className="min-w-fit w-1/5">Password</label>
             <input
               type="password"
-              className="w-4/5 border-2 rounded-full p-2 px-4"
+              className="w-full md:w-4/5 border-2 rounded-full p-2 px-4"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />

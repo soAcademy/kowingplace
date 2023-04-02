@@ -1,21 +1,22 @@
-import { useEffect, useContext, useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
 import { ContextUserId } from "../../App";
-import axios from "axios";
-import {} from "react-icons/fa";
 import { PartnerMainNav } from "../../components";
+import axios from "axios";
 
-export const Main = () => {
-  const { userId } = useContext(ContextUserId);
+export const Status = () => {
+  const { status } = useParams();
   const [dataCoWork, setDataCoWork] = useState({});
+  const { userId } = useContext(ContextUserId);
   console.log("userId", userId);
 
   useEffect(() => {
     const getData = () => {
       const data = JSON.stringify({
-        userId: userId.userId,
-        status: "",
+        userId: 27,
+        status: status.toUpperCase(),
       });
-      console.log("data", data);
+
       const config = {
         method: "post",
         maxBodyLength: Infinity,
@@ -40,7 +41,7 @@ export const Main = () => {
     };
 
     Object.keys(userId).length > 0 && getData();
-  }, [userId]);
+  }, [userId, status]);
 
   return (
     <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20 md:py-20">
@@ -53,7 +54,7 @@ export const Main = () => {
           {dataCoWork?.coWork?.bookRoom?.map((bookRoom, idx) => (
             <div
               key={`room_${idx + 1}`}
-              className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-2 bg-orange-100/20 transition ease-in-out delay-50 hover:scale-105 duration-200 items-center border-2 border-l-4 border-l-green-400 rounded-lg shadow-md p-2 md:p-4 mb-4"
+              className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-7 gap-2 bg-orange-100/20 transition ease-in-out delay-50 hover:scale-105 duration-200 items-center border-2 border-l-4 border-l-green-400 rounded-lg shadow-md p-2 md:p-4 mb-4"
             >
               <div className="">
                 <p>{bookRoom.roomRate.room.name}</p>
@@ -61,10 +62,10 @@ export const Main = () => {
               <div className="">
                 <p>{bookRoom.UserExternal.name}</p>
               </div>
-              <div className="">
+              <div className="text-right">
                 <p>{new Date(bookRoom.startTime).toDateString()}</p>
               </div>
-              <div className="">
+              <div className="text-center">
                 <p>
                   {new Date(bookRoom.startTime)
                     .toLocaleTimeString("TH-th")
@@ -75,7 +76,20 @@ export const Main = () => {
                 <p>{bookRoom.roomRate.duration.duration} hr(s).</p>
               </div>
               <div className="">
-                <p>{bookRoom.status}</p>
+                <p>{bookRoom.vertifyCode.verifyCode}</p>
+              </div>
+              <div className="text-center">
+                <p
+                  className={`${
+                    status === "pending"
+                      ? "text-orange-300"
+                      : status === "on_going"
+                      ? "text-green-500"
+                      : "text-slate-500"
+                  } font-medium`}
+                >
+                  {bookRoom.status}
+                </p>
               </div>
             </div>
           ))}

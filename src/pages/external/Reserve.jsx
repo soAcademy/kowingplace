@@ -7,8 +7,9 @@ import { FaUsers } from "react-icons/fa";
 import { ContextUserId } from "../../App";
 
 export const Reserve = () => {
-  const { branchId } = useParams();
+  const { coWorkId } = useParams();
   const { userId } = useContext(ContextUserId);
+  const [dayOpen, setDayOpen] = useState({});
   const [timeAvailableDB, setTimeAvailableDB] = useState({});
   const [availableStartTime, setAvailableStartTime] = useState([]);
   const [tabSelect, setTabSelect] = useState("room");
@@ -29,9 +30,35 @@ export const Reserve = () => {
 
   //get all room of branch id
   useEffect(() => {
+    const getDayOpen = () => {
+      const data = JSON.stringify({
+        coWorkId: Number(coWorkId),
+      });
+
+      const config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `${import.meta.env.VITE_API_BACKEND}/kowing/getOpenDay`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      axios
+        .request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+          setDayOpen(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
     const getAllRoom = () => {
       const data = JSON.stringify({
-        coWorkId: Number(branchId),
+        coWorkId: Number(coWorkId),
       });
 
       const config = {
@@ -54,6 +81,7 @@ export const Reserve = () => {
         });
     };
 
+    getDayOpen();
     getAllRoom();
   }, []);
 
@@ -203,16 +231,17 @@ export const Reserve = () => {
         `${selectDateTime.year}-${selectDateTime.month}-${selectDateTime.date} ${selectTime.time}:00:00.000`
       ).toISOString(),
       roomId: selectRoom,
-      coWorkId: Number(branchId),
+      coWorkId: Number(coWorkId),
       roomRateId: selectTime.roomRateId,
-      userExId: 19,
-      // userExId: userId.userId,
+      userExId: userId.userId,
     });
     console.log("reserveFunc", data);
     const config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: `${import.meta.env.VITE_API_BACKEND}/kowing/getVerifyCodeByUserConfirmBooking`,
+      url: `${
+        import.meta.env.VITE_API_BACKEND
+      }/kowing/getVerifyCodeByUserConfirmBooking`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -242,6 +271,7 @@ export const Reserve = () => {
             <Calendar
               selectDateTime={selectDateTime}
               setSelectDateTime={setSelectDateTime}
+              dayOpen={dayOpen}
             />
           </div>
 

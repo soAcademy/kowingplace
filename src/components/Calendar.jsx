@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
-export const Calendar = ({ selectDateTime, setSelectDateTime }) => {
+export const Calendar = ({ selectDateTime, setSelectDateTime, dayOpen }) => {
   //day of week and month start index 0
   const [yearData, setYearData] = useState(0);
   const [monthData, setMonthData] = useState(0);
@@ -26,6 +26,8 @@ export const Calendar = ({ selectDateTime, setSelectDateTime }) => {
     "November",
     "December",
   ];
+
+  // console.log("dayOpen", dayOpen);
 
   useEffect(() => {
     setYearData(new Date().getFullYear());
@@ -119,6 +121,49 @@ export const Calendar = ({ selectDateTime, setSelectDateTime }) => {
   //   dayMonthStart
   // );
 
+  const dateSelect = (year, month, date) => {
+    return (
+      selectDateTime.date === date &&
+      selectDateTime.month === month &&
+      selectDateTime.year === year
+    );
+  };
+
+  const dayOffTime = (today) => {
+    const dayOpenString = [
+      "sunOnOff",
+      "monOnOff",
+      "tueOnOff",
+      "wedOnOff",
+      "thursOnOff",
+      "friOnOff",
+      "satOnOff",
+    ];
+
+    return (dayOpen != undefined || dayOpen != null) &&
+      Object.keys(dayOpen).length > 0
+      ? dayOpen[dayOpenString[today]]
+      : false;
+  };
+
+  const todayColor = (year, month, date) => {
+    return (
+      new Date().getDate() === date &&
+      new Date().getMonth() + 1 === month &&
+      new Date().getFullYear() === year
+    );
+  };
+
+  const todayAndNextDay = (year, month, date) => {
+    return (
+      year >= new Date().getFullYear() &&
+      (month >= new Date().getMonth() + 1 || year > new Date().getFullYear()) &&
+      (date >= new Date().getDate() ||
+        month > new Date().getMonth() + 1 ||
+        year > new Date().getFullYear())
+    );
+  };
+
   return (
     <div className="cBlock">
       <div className="w-full flex flex-col gap-y-4 bg-orange-100/70 rounded-[15px] shadow-md p-2 md:p-4">
@@ -182,22 +227,16 @@ export const Calendar = ({ selectDateTime, setSelectDateTime }) => {
                 >
                   <div
                     className={`w-12 h-12 flex justify-center items-center ${
-                      selectDateTime.date === r.date &&
-                      selectDateTime.month === r.month &&
-                      selectDateTime.year === r.year
+                      dateSelect(r.year, r.month, r.date)
                         ? "bg-orange-400/50 border-2 border-orange-500"
-                        : new Date().getDate() === r.date &&
-                          new Date().getMonth() + 1 === r.month &&
-                          new Date().getFullYear() === r.year
+                        : !dayOffTime(r.day)
+                        ? "bg-slate-200/50 text-slate-400" //closed
+                        : todayColor(r.year, r.month, r.date)
                         ? "bg-orange-400/40"
                         : "bg-orange-300/30"
                     } ${
-                      r.year >= new Date().getFullYear() &&
-                      (r.month >= new Date().getMonth() + 1 ||
-                        r.year > new Date().getFullYear()) &&
-                      (r.date >= new Date().getDate() ||
-                        r.month > new Date().getMonth() + 1 ||
-                        r.year > new Date().getFullYear())
+                      todayAndNextDay(r.year, r.month, r.date) &&
+                      dayOffTime(r.day)
                         ? "hover:bg-orange-400/50"
                         : "cursor-not-allowed"
                     } rounded-full p-4`}

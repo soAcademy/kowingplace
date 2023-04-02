@@ -23,7 +23,7 @@ export const Welcome = () => {
           </div>
         </div>
         <div className="w-full h-1/3 flex justify-center items-center">
-          <Link to="/login/internal">
+          <Link to="/partner/login">
             <div className="bg-green-300 font-medium hover:bg-green-400 rounded-full p-2 px-4">
               เข้าสู่ระบบ พาร์ทเนอร์
             </div>
