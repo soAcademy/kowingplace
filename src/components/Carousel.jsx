@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
+import { Link } from "react-router-dom";
 
 export const Carousel = ({ slides }) => {
   const [currCrsIndex, setCurrCrsIndex] = useState(0);
@@ -33,6 +34,10 @@ export const Carousel = ({ slides }) => {
         }}
         className="relative w-full h-full rounded-lg bg-center bg-cover duration-500"
       >
+        <Link
+          to={slides[currCrsIndex]?.link}
+          className="absolute w-full h-full"
+        ></Link>
         {/* left arrow */}
         <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
           <BsChevronCompactLeft onClick={prevCrsBtn} size={30} />
@@ -46,6 +51,7 @@ export const Carousel = ({ slides }) => {
           {slides[currCrsIndex]?.name}
         </div>
       </div>
+
       <div className="flex top-4 justify-center py-2">
         {slides?.map((data, idx) => (
           <div

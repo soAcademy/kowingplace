@@ -1,6 +1,6 @@
 import { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../assets/images/letter-k.png";
+import Logo from "../assets/images/icons8-office-48.png";
 import { ContextUserId } from "../App";
 import { FaSignInAlt, FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 

@@ -12,9 +12,10 @@ export const Home = () => {
   const topics = [
     {
       id: 1,
-      name: "7 ข้อดีการใช้ Co-Working Space",
+      name: "รวม 7 ข้อดีของการทำงานที่ Co-Working Space",
       image:
-        "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+        "https://www.mangozero.com/wp-content/uploads/2017/11/7-benefits-of-co-working-space-featured.jpg",
+      link: "https://www.mangozero.com/7-benefits-of-co-working-space/",
     },
   ];
 
@@ -24,7 +25,6 @@ export const Home = () => {
     const config = {
       method: "post",
       maxBodyLength: Infinity,
-      // url: "http://localhost:7470/kowing/getCoworks",
       url: `${import.meta.env.VITE_API_BACKEND}/kowing/getCoworks`,
       // headers: { token: localStorage.getItem("token") },
       headers: {},
@@ -100,6 +100,7 @@ export const Home = () => {
             id: r.id,
             name: r.name,
             image: r.image,
+            link: r.link,
           }))}
         />
       </div>

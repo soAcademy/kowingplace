@@ -6,8 +6,7 @@ export const CardLink = ({ data }) => {
   return (
     <Link
       to={`/branch/${data.id}`}
-      // className="cardList w-full bg-orange-100/50 rounded-md shadow-md transition ease-in-out duration-300 hover:scale-110"
-      className="cardList flex-none w-[100px] md:w-[200px] h-[250px] md:h-[300px] bg-orange-100/50 rounded-md"
+      className="cardList flex-none w-[100px] md:w-[200px] h-[250px] md:h-[300px] bg-orange-100/50 rounded-md transition ease-in-out delay-300 duration-300 hover:scale-110"
     >
       <img
         src={data.picture}

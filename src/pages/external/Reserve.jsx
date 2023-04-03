@@ -226,41 +226,45 @@ export const Reserve = () => {
   }, [modal]);
 
   const reserveFunc = () => {
-    //
-    const data = JSON.stringify({
-      startTime: new Date(
-        `${selectDateTime.year}-${selectDateTime.month}-${selectDateTime.date} ${selectTime.time}:00:00.000`
-      ).toISOString(),
-      roomId: selectRoom,
-      coWorkId: Number(coWorkId),
-      roomRateId: selectTime.roomRateId,
-      userExId: userId.userId,
-    });
-    console.log("reserveFunc", data);
-    const config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: `${
-        import.meta.env.VITE_API_BACKEND
-      }/kowing/getVerifyCodeByUserConfirmBooking`,
-      headers: {
-        "Content-Type": "application/json",
-        token: token,
-      },
-      data: data,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        setReserveCode(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
+    try {
+      const data = JSON.stringify({
+        startTime: new Date(
+          `${selectDateTime.year}-${selectDateTime.month}-${selectDateTime.date} ${selectTime.time}:00:00.000`
+        ).toISOString(),
+        roomId: selectRoom,
+        coWorkId: Number(coWorkId),
+        roomRateId: selectTime.roomRateId,
+        userExId: userId.userId,
       });
+      console.log("reserveFunc", data);
+      const config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `${
+          import.meta.env.VITE_API_BACKEND
+        }/kowing/getVerifyCodeByUserConfirmBooking`,
+        headers: {
+          "Content-Type": "application/json",
+          token: token,
+        },
+        data: data,
+      };
 
-    setModal({ show: true, page: "result" });
+      axios
+        .request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+          setReserveCode(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      setModal({ show: true, page: "result" });
+    } catch (error) {
+      console.log("error", error);
+      window.location.replace("/user/login");
+    }
   };
 
   return (
