@@ -98,7 +98,7 @@ export const Home = () => {
         <Carousel
           slides={topics?.map((r) => ({
             id: r.id,
-            name: r.name,
+            name: "",
             image: r.image,
             link: r.link,
           }))}

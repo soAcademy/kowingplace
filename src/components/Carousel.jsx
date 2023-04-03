@@ -47,9 +47,11 @@ export const Carousel = ({ slides }) => {
           <BsChevronCompactRight onClick={nextCrsBtn} size={30} />
         </div>
 
-        <div className="absolute w-2/5 h-1/6 flex justify-center items-center text-white md:text-xl bottom-4 right-4 bg-slate-200/30 rounded-lg p-4">
-          {slides[currCrsIndex]?.name}
-        </div>
+        {slides[currCrsIndex]?.name && (
+          <div className="absolute w-2/5 h-1/6 flex justify-center items-center text-white md:text-xl bottom-4 right-4 bg-slate-200/30 rounded-lg p-4">
+            {slides[currCrsIndex]?.name}
+          </div>
+        )}
       </div>
 
       <div className="flex top-4 justify-center py-2">
