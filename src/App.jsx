@@ -11,6 +11,7 @@ import {
   SettingRoom,
   SettingCo,
   SettingTime,
+  Reservation,
 } from "./pages";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Status } from "./pages/internal/Status";
@@ -40,6 +41,7 @@ export const App = () => {
           <Route exact path="/branch/:coWorkId" element={<Branch />} />
           <Route exact path="/reserve/:coWorkId" element={<Reserve />} />
           <Route exact path="/:typeUser/signup" element={<Signup />} />
+          <Route exact path="/user/reservation" element={<Reservation />} />
           <Route exact path="/partner/welcome" element={<Welcome />} />
           <Route exact path="/partner/main" element={<Main />} />
           <Route

@@ -8,19 +8,19 @@ export const PartnerMainNav = () => {
         <p>Status:</p>
         <Link
           to="/partner/status/pending"
-          className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full p-2 px-4"
+          className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full duration-300 p-2 px-4"
         >
           Pending
         </Link>
         <Link
           to="/partner/status/on_going"
-          className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full p-2 px-4"
+          className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full duration-300 p-2 px-4"
         >
           On Going
         </Link>
         <Link
           to="/partner/status/done"
-          className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full p-2 px-4"
+          className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full duration-300 p-2 px-4"
         >
           Done
         </Link>
@@ -29,19 +29,19 @@ export const PartnerMainNav = () => {
         <p>Setting:</p>
         <Link
           to="/partner/setting/coworkingspace"
-          className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full p-2 px-4"
+          className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full duration-300 p-2 px-4"
         >
           Co-Working Space
         </Link>
         <Link
           to="/partner/setting/Time"
-          className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full p-2 px-4"
+          className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full duration-300 p-2 px-4"
         >
           Time
         </Link>
         <Link
           to="/partner/setting/rooms"
-          className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full p-2 px-4"
+          className="w-fit font-medium bg-orange-200 hover:bg-orange-300 rounded-full duration-300 p-2 px-4"
         >
           Rooms
         </Link>
