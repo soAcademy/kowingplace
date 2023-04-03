@@ -140,7 +140,8 @@ export const SettingRoom = () => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        getOldData();
+        // getOldData();
+        window.location.replace("/partner/main");
       })
       .catch((error) => {
         console.log(error);
