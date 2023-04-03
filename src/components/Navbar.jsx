@@ -34,7 +34,7 @@ export const Navbar = (props) => {
           Home
         </Link>
         <Link
-          to={`/partner/${userId.role === "partner" ? "main" : "welcome"}`}
+          to={`/partner/${userId?.role === "partner" ? "main" : "welcome"}`}
           className="hover:text-gray-800"
         >
           Partner
