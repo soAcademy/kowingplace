@@ -4,9 +4,8 @@ import Logo from "../assets/images/letter-k.png";
 import { ContextUserId } from "../App";
 import { FaSignInAlt, FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 
-export const Navbar = (props) => {
-  const { token, setToken } = props;
-  const { userId, setUserId } = useContext(ContextUserId);
+export const Navbar = () => {
+  const { userId, setUserId, setToken } = useContext(ContextUserId);
 
   // useEffect(() => {
   //   try {
@@ -22,6 +21,7 @@ export const Navbar = (props) => {
     localStorage.removeItem("token");
     localStorage.removeItem("userData");
     setUserId({});
+    setToken("");
   };
 
   return (

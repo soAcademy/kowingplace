@@ -4,7 +4,7 @@ import axios from "axios";
 import { PartnerMainNav } from "../../components";
 
 export const SettingTime = () => {
-  const { userId } = useContext(ContextUserId);
+  const { userId, token } = useContext(ContextUserId);
   const [dataCoWork, setDataCoWork] = useState({});
   const [open, setOpen] = useState([
     false,
@@ -143,6 +143,7 @@ export const SettingTime = () => {
       url: `${import.meta.env.VITE_API_BACKEND}/kowing/createTimeOpenClose`,
       headers: {
         "Content-Type": "application/json",
+        token: token,
       },
       data: data,
     };

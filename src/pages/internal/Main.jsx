@@ -10,37 +10,69 @@ export const Main = () => {
   console.log("userId", userId);
 
   useEffect(() => {
-    const getData = () => {
-      const data = JSON.stringify({
-        userId: userId.userId,
-        status: "",
-      });
-      console.log("data", data);
-      const config = {
-        method: "post",
-        maxBodyLength: Infinity,
-        url: `${
-          import.meta.env.VITE_API_BACKEND
-        }/kowing/getBookRoomByPartnerId`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
-
-      axios
-        .request(config)
-        .then((response) => {
-          console.log(JSON.stringify(response.data));
-          setDataCoWork(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-
     Object.keys(userId).length > 0 && getData();
   }, [userId]);
+
+  const getData = () => {
+    const data = JSON.stringify({
+      userId: userId.userId,
+      status: "",
+    });
+    console.log("data", data);
+    const config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_API_BACKEND}/kowing/getBookRoomByPartnerId`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        setDataCoWork(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const updateStatus = (bookRoomId, nowStatus) => {
+    const newStatus =
+      nowStatus === "PENDING"
+        ? "ON_GOING"
+        : nowStatus === "ON_GOING"
+        ? "DONE"
+        : "";
+
+    const data = JSON.stringify({
+      bookRoomId: bookRoomId,
+      newStatus: newStatus,
+    });
+
+    const config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_API_BACKEND}/kowing/updateStatus`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        getData();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20 md:py-20">

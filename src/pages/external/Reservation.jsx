@@ -5,23 +5,20 @@ import { Link } from "react-router-dom";
 
 export const Reservation = () => {
   const { userId } = useContext(ContextUserId);
-  const [localUserId, setLocalUserId] = useState({});
   const [dataReserves, setDataReserves] = useState([]);
   console.log("userId", userId);
-  console.log("localUserId", localUserId);
 
   useEffect(() => {
-    setLocalUserId(userId);
+    Object.keys(userId).length > 0 && getData();
   }, [userId]);
 
-  useEffect(() => {
+  const getData = () => {
     const data = JSON.stringify({
-      userId: localUserId.userId,
+      userId: userId.userId,
     });
-
+    console.log("data", data);
     const config = {
       method: "post",
-      maxBodyLength: Infinity,
       url: `${
         import.meta.env.VITE_API_BACKEND
       }/kowing/showtheRoomBookedbyUserExternal`,
@@ -40,7 +37,7 @@ export const Reservation = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [localUserId]);
+  };
 
   return (
     <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20 md:py-20">
@@ -84,7 +81,12 @@ export const Reservation = () => {
                 <p>{bookRoom.roomRate.duration.duration} hr(s).</p>
               </div>
               <div className="text-center md:text-left">
-                <p>{bookRoom.vertifyCode.verifyCode}</p>
+                <p
+                  className="text-ellipsis overflow-hidden"
+                  title={bookRoom.vertifyCode.verifyCode}
+                >
+                  {bookRoom.vertifyCode.verifyCode}
+                </p>
               </div>
               <div className="text-center">
                 <p>฿{bookRoom.roomRate.price}</p>

@@ -38,8 +38,8 @@ export const App = () => {
 
   return (
     <BrowserRouter>
-      <ContextUserId.Provider value={{ userId, setUserId }}>
-        <Navbar token={token} setToken={setToken} />
+      <ContextUserId.Provider value={{ userId, setUserId, token, setToken }}>
+        <Navbar />
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/:typeUser/Login/" element={<Login />} />

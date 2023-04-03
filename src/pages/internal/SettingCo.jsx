@@ -4,7 +4,7 @@ import axios from "axios";
 import { PartnerMainNav } from "../../components";
 
 export const SettingCo = () => {
-  const { userId } = useContext(ContextUserId);
+  const { userId, token } = useContext(ContextUserId);
   const [dataCoWork, setDataCoWork] = useState({
     name: "",
     description: "",
@@ -19,15 +19,15 @@ export const SettingCo = () => {
 
   useEffect(() => {
     getOldData();
-  }, []);
+  }, [userId]);
 
   //get old data
   const getOldData = () => {
     const fetchData = () => {
       const data = JSON.stringify({
-        userInternalId: userId,
+        userInternalId: userId.userId,
       });
-
+      console.log("data", data);
       const config = {
         method: "post",
         maxBodyLength: Infinity,
@@ -101,7 +101,7 @@ export const SettingCo = () => {
       location: dataCoWork.location,
       tel: dataCoWork.tel,
       picture: dataCoWork.picture,
-      userInternalId: userId,
+      userInternalId: userId.userId,
       facilities: checkedFac,
     });
     console.log("data", data);
@@ -111,6 +111,7 @@ export const SettingCo = () => {
       url: `${import.meta.env.VITE_API_BACKEND}/kowing/${urlMethod}`,
       headers: {
         "Content-Type": "application/json",
+        token: token,
       },
       data: data,
     };

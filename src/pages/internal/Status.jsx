@@ -11,37 +11,35 @@ export const Status = () => {
   console.log("userId", userId);
 
   useEffect(() => {
-    const getData = () => {
-      const data = JSON.stringify({
-        userId: 27,
-        status: status.toUpperCase(),
-      });
-
-      const config = {
-        method: "post",
-        maxBodyLength: Infinity,
-        url: `${
-          import.meta.env.VITE_API_BACKEND
-        }/kowing/getBookRoomByPartnerId`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
-
-      axios
-        .request(config)
-        .then((response) => {
-          console.log(JSON.stringify(response.data));
-          setDataCoWork(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-
     Object.keys(userId).length > 0 && getData();
   }, [userId, status]);
+
+  const getData = () => {
+    const data = JSON.stringify({
+      userId: userId.userId,
+      status: status.toUpperCase(),
+    });
+
+    const config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_API_BACKEND}/kowing/getBookRoomByPartnerId`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        setDataCoWork(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const updateStatus = (bookRoomId, nowStatus) => {
     const newStatus =
@@ -70,6 +68,7 @@ export const Status = () => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
+        getData();
       })
       .catch((error) => {
         console.log(error);
@@ -106,7 +105,12 @@ export const Status = () => {
                 <p>{bookRoom.roomRate.duration.duration} hr(s).</p>
               </div>
               <div className="text-center md:text-left">
-                <p>{bookRoom.vertifyCode.verifyCode}</p>
+                <p
+                  className="text-ellipsis overflow-hidden"
+                  title={bookRoom.vertifyCode.verifyCode}
+                >
+                  {bookRoom.vertifyCode.verifyCode}
+                </p>
               </div>
               <div className="text-center">
                 <p>฿{bookRoom.roomRate.price}</p>

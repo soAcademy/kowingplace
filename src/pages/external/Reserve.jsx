@@ -8,7 +8,7 @@ import { ContextUserId } from "../../App";
 
 export const Reserve = () => {
   const { coWorkId } = useParams();
-  const { userId } = useContext(ContextUserId);
+  const { userId, token } = useContext(ContextUserId);
   const [dayOpen, setDayOpen] = useState({});
   const [timeAvailableDB, setTimeAvailableDB] = useState({});
   const [availableStartTime, setAvailableStartTime] = useState([]);
@@ -24,6 +24,7 @@ export const Reserve = () => {
     day: 0,
     key: 0,
   });
+  const [reserveCode, setReserveCode] = useState("");
   const modalRef = useRef(null);
 
   console.log("userId", userId);
@@ -60,7 +61,7 @@ export const Reserve = () => {
       const data = JSON.stringify({
         coWorkId: Number(coWorkId),
       });
-
+      console.log("data", data);
       const config = {
         method: "post",
         url: `${import.meta.env.VITE_API_BACKEND}/kowing/getRoomByCoWorkId`,
@@ -244,6 +245,7 @@ export const Reserve = () => {
       }/kowing/getVerifyCodeByUserConfirmBooking`,
       headers: {
         "Content-Type": "application/json",
+        token: token,
       },
       data: data,
     };
@@ -252,6 +254,7 @@ export const Reserve = () => {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
+        setReserveCode(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -404,7 +407,16 @@ export const Reserve = () => {
                       {`${selectTime.type} ชั่วโมง`}
                     </span>
                   </p>
-                  <p>ราคา : ยังไม่มีราคา</p>
+                  <p>
+                    ราคา :{" "}
+                    {
+                      dataRooms?.BranchToRoom.filter(
+                        (room) => room.roomId === selectRoom
+                      )[0].room.RoomRate.filter(
+                        (rate) => rate.id === selectTime.roomRateId
+                      )[0].price
+                    }
+                  </p>
                 </div>
               </div>
               <button
@@ -435,8 +447,10 @@ export const Reserve = () => {
                   </h1>
                   <p>
                     กรุณาแสดงรหัส{" "}
-                    <span className="text-xl font-medium">{11111}</span> ณ
-                    เคาท์เตอร์ที่ให้บริการ พร้อมชำระเงินที่ร้านค้า
+                    <span className="text-xl font-medium">
+                      {reserveCode?.vertifyCode?.verifyCode}
+                    </span>{" "}
+                    ณ เคาท์เตอร์ที่ให้บริการ พร้อมชำระเงินที่ร้านค้า
                   </p>
                 </div>
               </div>

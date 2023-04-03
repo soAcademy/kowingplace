@@ -4,7 +4,7 @@ import axios from "axios";
 import { PartnerMainNav } from "../../components";
 
 export const SettingRoom = () => {
-  const { userId } = useContext(ContextUserId);
+  const { userId, token } = useContext(ContextUserId);
   const [dataCoWork, setDataCoWork] = useState({});
   const [rooms, setRooms] = useState([]);
   console.log("userId", userId);
@@ -18,10 +18,9 @@ export const SettingRoom = () => {
     const data = JSON.stringify({
       userInternalId: userId.userId,
     });
-
+    console.log("data", data);
     const config = {
       method: "post",
-      maxBodyLength: Infinity,
       url: `${import.meta.env.VITE_API_BACKEND}/kowing/getCoworkByUserId`,
       headers: {
         "Content-Type": "application/json",
@@ -122,6 +121,7 @@ export const SettingRoom = () => {
         roomId: rooms.roomId,
       })),
     });
+    console.log("token", token);
     const urlPath =
       type === "create" ? "createRoomInternal" : "updateRoomInternal";
     console.log("submit", data);
@@ -131,6 +131,7 @@ export const SettingRoom = () => {
       url: `${import.meta.env.VITE_API_BACKEND}/kowing/${urlPath}`,
       headers: {
         "Content-Type": "application/json",
+        token: token,
       },
       data: data,
     };
