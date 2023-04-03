@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { ContextUserId } from "@/App.jsx";
 import axios from "axios";
+import { PartnerMainNav } from "../../components";
 
 export const SettingTime = () => {
   const { userId } = useContext(ContextUserId);
@@ -34,7 +35,7 @@ export const SettingTime = () => {
 
   useEffect(() => {
     getOldData();
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     const strOpen = [
@@ -99,9 +100,9 @@ export const SettingTime = () => {
   //get old data
   const getOldData = () => {
     const data = JSON.stringify({
-      userInternalId: userId,
+      userInternalId: userId.userId,
     });
-
+    console.log("data", data);
     const config = {
       method: "post",
       maxBodyLength: Infinity,
@@ -181,12 +182,13 @@ export const SettingTime = () => {
   return (
     <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm p-4 pt-20 md:py-20">
       <div className="w-full lg:w-3/4 flex flex-col gap-y-8">
+        <div className="header">
+          <h1 className="text-2xl text-center">{dataCoWork?.coWork?.name}</h1>
+        </div>
+        <PartnerMainNav />
         {/* {dataCoWork?.coWork?.id !== undefined && ( */}
         <>
-          <div className="header">
-            <h1 className="text-2xl text-center">{dataCoWork?.coWork?.name}</h1>
-          </div>
-          <div className="timeBlock flex flex-col gap-y-2">
+          <div className="timeBlock flex flex-col gap-y-2 mt-8">
             <p className="font-medium">Setting: OPEN / CLOSED Time</p>
             <div className="relative overflow-x-auto">
               <table className="w-full text-sm text-left">

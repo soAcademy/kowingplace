@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { ContextUserId } from "@/App.jsx";
 import axios from "axios";
+import { PartnerMainNav } from "../../components";
 
 export const SettingRoom = () => {
   const { userId } = useContext(ContextUserId);
@@ -10,18 +11,18 @@ export const SettingRoom = () => {
 
   useEffect(() => {
     getOldData();
-  }, []);
+  }, [userId]);
 
   //get old data
   const getOldData = () => {
     const data = JSON.stringify({
-      userInternalId: userId,
+      userInternalId: userId.userId,
     });
 
     const config = {
       method: "post",
       maxBodyLength: Infinity,
-      url:`${import.meta.env.VITE_API_BACKEND}/kowing/getCoworkByUserId`,
+      url: `${import.meta.env.VITE_API_BACKEND}/kowing/getCoworkByUserId`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -151,6 +152,7 @@ export const SettingRoom = () => {
         <div className="header">
           <h1 className="text-2xl text-center">{dataCoWork?.name}</h1>
         </div>
+        <PartnerMainNav />
         <div className="createBtn">
           <button
             onClick={() => newRoom()}
@@ -200,7 +202,9 @@ export const SettingRoom = () => {
                   {[1, 3, 6, 24].map((duration, idx) => (
                     <div
                       key={`room_${room.branchToRoomId}_duration_${duration}`}
-                      className="flex justify-between items-center gap-x-2"
+                      className={`flex justify-between items-center gap-x-2 ${
+                        duration === 24 ? "hidden" : ""
+                      }`}
                     >
                       <input
                         type="checkbox"

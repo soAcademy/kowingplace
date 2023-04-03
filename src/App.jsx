@@ -11,8 +11,10 @@ import {
   SettingRoom,
   SettingCo,
   SettingTime,
+  Reservation,
 } from "./pages";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Status } from "./pages/internal/Status";
 
 export const ContextUserId = createContext();
 
@@ -20,6 +22,10 @@ export const App = () => {
   const [userId, setUserId] = useState({}); //
   const [token, setToken] = useState(null);
   const getLocalToken = localStorage.getItem("token");
+
+  useEffect(() => {
+    setUserId(JSON.parse(localStorage.getItem("userData")));
+  }, []);
 
   useEffect(() => {
     setToken(getLocalToken);
@@ -31,10 +37,11 @@ export const App = () => {
         <Navbar token={token} setToken={setToken} />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/Login/:type" element={<Login />} />
-          <Route exact path="/branch/:branchId" element={<Branch />} />
-          <Route exact path="/reserve/:branchId" element={<Reserve />} />
+          <Route exact path="/:typeUser/Login/" element={<Login />} />
+          <Route exact path="/branch/:coWorkId" element={<Branch />} />
+          <Route exact path="/reserve/:coWorkId" element={<Reserve />} />
           <Route exact path="/:typeUser/signup" element={<Signup />} />
+          <Route exact path="/user/reservation" element={<Reservation />} />
           <Route exact path="/partner/welcome" element={<Welcome />} />
           <Route exact path="/partner/main" element={<Main />} />
           <Route
@@ -48,6 +55,7 @@ export const App = () => {
             element={<SettingRoom />}
           />
           <Route exact path="/partner/setting/time" element={<SettingTime />} />
+          <Route exact path="/partner/status/:status" element={<Status />} />
         </Routes>
       </ContextUserId.Provider>
     </BrowserRouter>

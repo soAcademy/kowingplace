@@ -4,13 +4,13 @@ import axios from "axios";
 import { FaMapMarker, FaPhoneAlt } from "react-icons/fa";
 
 export const Branch = () => {
-  const { branchId } = useParams();
+  const { coWorkId } = useParams();
   const [dataCoWork, setDataCoWork] = useState({});
   const [facilities, setFacilities] = useState([]);
 
   useEffect(() => {
     const data = JSON.stringify({
-      id: Number(branchId),
+      id: Number(coWorkId),
     });
 
     const config = {
@@ -78,7 +78,7 @@ export const Branch = () => {
             ))}
           </div>
         </div>
-        <div className="btnReserve w-full flex justify-center">
+        <div className="btnReserve w-full flex justify-center mb-8">
           <Link to={`/reserve/${dataCoWork.id}`}>
             <div className="w-40 duration-300 font-medium bg-green-300 hover:bg-green-400 text-center rounded-full p-2 px-4">
               จองล่วงหน้า

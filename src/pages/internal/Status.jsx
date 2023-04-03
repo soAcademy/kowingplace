@@ -1,21 +1,22 @@
-import { useEffect, useContext, useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Link, useParams } from "react-router-dom";
 import { ContextUserId } from "../../App";
-import axios from "axios";
-import {} from "react-icons/fa";
 import { PartnerMainNav } from "../../components";
+import axios from "axios";
 
-export const Main = () => {
-  const { userId } = useContext(ContextUserId);
+export const Status = () => {
+  const { status } = useParams();
   const [dataCoWork, setDataCoWork] = useState({});
+  const { userId } = useContext(ContextUserId);
   console.log("userId", userId);
 
   useEffect(() => {
     const getData = () => {
       const data = JSON.stringify({
-        userId: userId.userId,
-        status: "",
+        userId: 27,
+        status: status.toUpperCase(),
       });
-      console.log("data", data);
+
       const config = {
         method: "post",
         maxBodyLength: Infinity,
@@ -40,7 +41,40 @@ export const Main = () => {
     };
 
     Object.keys(userId).length > 0 && getData();
-  }, [userId]);
+  }, [userId, status]);
+
+  const updateStatus = (bookRoomId, nowStatus) => {
+    const newStatus =
+      nowStatus === "PENDING"
+        ? "ON_GOING"
+        : nowStatus === "ON_GOING"
+        ? "DONE"
+        : "";
+
+    const data = JSON.stringify({
+      bookRoomId: bookRoomId,
+      newStatus: newStatus,
+    });
+
+    const config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${import.meta.env.VITE_API_BACKEND}/kowing/updateStatus`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20 md:py-20">
