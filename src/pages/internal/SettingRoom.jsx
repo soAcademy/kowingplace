@@ -43,6 +43,8 @@ export const SettingRoom = () => {
             durations: room.room.RoomRate.map((rate) => ({
               duration: rate.duration.duration,
               price: rate.price,
+              roomId: room.roomId,
+              roomRateId: rate.id,
             })),
           })
         );
@@ -75,10 +77,26 @@ export const SettingRoom = () => {
       key === "price"
         ? idxDuration >= 0
           ? (_temp[idxRoom].durations[idxDuration].price = value)
-          : [..._temp[idxRoom].durations, { duration: duration, price: value }]
+          : [
+              ..._temp[idxRoom].durations,
+              {
+                duration: duration,
+                price: value,
+                roomId: _temp[idxRoom].roomId,
+                roomRateId: 0,
+              },
+            ]
         : idxDuration >= 0
         ? _temp[idxRoom].durations.filter((r) => r.duration !== duration)
-        : [..._temp[idxRoom].durations, { duration: duration }];
+        : [
+            ..._temp[idxRoom].durations,
+            {
+              duration: duration,
+              price: 0,
+              roomId: _temp[idxRoom].roomId,
+              roomRateId: 0,
+            },
+          ];
     console.log("newData", newData);
     console.log("_temp", _temp);
 
@@ -96,7 +114,7 @@ export const SettingRoom = () => {
       ...rooms,
       {
         branchToRoomId: 0,
-        roomId: 0,
+        coworkId: 0,
         name: "",
         capacity: 0,
         durations: [],
@@ -107,9 +125,11 @@ export const SettingRoom = () => {
   const submitBtn = (type, branchToRoomId) => {
     console.log("branchToRoomId", branchToRoomId);
     console.log("dataCoWork", dataCoWork);
+
     const dataRoom = rooms.filter(
       (r) => r.branchToRoomId === branchToRoomId
     )[0];
+    console.log("dataRoom", dataRoom);
     const data = JSON.stringify({
       branchToRoomId: branchToRoomId,
       name: dataRoom.name,
@@ -118,16 +138,17 @@ export const SettingRoom = () => {
       rates: dataRoom.durations.map((dul) => ({
         duration: dul.duration,
         price: dul.price,
-        roomId: rooms.roomId,
+        roomId: dul.roomId,
+        roomRateId: dul.roomRateId,
       })),
     });
+    console.log("data", data);
     console.log("token", token);
     const urlPath =
       type === "create" ? "createRoomInternal" : "updateRoomInternal";
     console.log("submit", data);
     const config = {
       method: "post",
-      maxBodyLength: Infinity,
       url: `${import.meta.env.VITE_API_BACKEND}/kowing/${urlPath}`,
       headers: {
         "Content-Type": "application/json",
@@ -249,8 +270,8 @@ export const SettingRoom = () => {
                               ? room.durations.filter(
                                   (r) => r.duration === duration
                                 )[0].price
-                              : ""
-                            : ""
+                              : 0
+                            : 0
                         }
                         disabled={
                           room.durations != null

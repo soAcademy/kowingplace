@@ -49,18 +49,18 @@ export const Navbar = () => {
               </Link>
             </div>
             <div className="relative group">
-              <div className="flex items-center gap-x-2">
+              <Link
+                to="/partner/welcome"
+                onClick={() => deleteToken()}
+                className="flex items-center gap-x-2"
+              >
                 <FaUserCircle size={20} />
                 {userId.name}
-              </div>
-              <Link
-                to="/"
-                onClick={() => deleteToken()}
-                className="hidden group-hover:flex items-center gap-x-2 absolute z-10 top-1/3 right-4 bg-orange-400 text-white rounded-md px-4 py-2 text-sm whitespace-nowrap cursor-pointer"
-              >
+              </Link>
+              <div className="hidden group-hover:flex items-center gap-x-2 absolute z-10 top-10 -right-2 bg-orange-400/50 text-white rounded-md px-4 py-2 text-sm whitespace-nowrap cursor-pointer">
                 Logout
                 <FaSignOutAlt />
-              </Link>
+              </div>
             </div>
           </div>
         ) : (

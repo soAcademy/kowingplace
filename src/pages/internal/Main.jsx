@@ -107,7 +107,7 @@ export const Main = () => {
                 <p>{bookRoom.vertifyCode.verifyCode}</p>
               </div>
               <div className="text-center">
-                <p>฿{bookRoom.roomRate.price}</p>
+                <p>฿{bookRoom.price}</p>
               </div>
               <button
                 onClick={() => updateStatus(bookRoom.id, bookRoom.status)}

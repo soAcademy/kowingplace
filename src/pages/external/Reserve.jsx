@@ -13,7 +13,12 @@ export const Reserve = () => {
   const [timeAvailableDB, setTimeAvailableDB] = useState({});
   const [availableStartTime, setAvailableStartTime] = useState([]);
   const [tabSelect, setTabSelect] = useState("room");
-  const [selectTime, setSelectTime] = useState({ type: 0, time: undefined });
+  const [selectTime, setSelectTime] = useState({
+    roomRateId: 0,
+    type: 0,
+    time: undefined,
+    price: 0,
+  });
   const [modal, setModal] = useState({ show: false, page: "" });
   const [dataRooms, setDataRooms] = useState([]);
   const [selectRoom, setSelectRoom] = useState(0);
@@ -201,7 +206,7 @@ export const Reserve = () => {
           };
         });
 
-      console.log(startTime);
+      console.log("startTime", startTime);
       setAvailableStartTime(startTime);
       console.log("selectRoom", selectRoom);
       setTabSelect("time");
@@ -216,8 +221,10 @@ export const Reserve = () => {
       selectDateTime.date !== 0 &&
       selectDateTime.day !== 0 &&
       selectRoom !== 0 &&
+      selectTime.roomRateId !== 0 &&
       selectTime.type !== 0 &&
       selectTime.time !== undefined &&
+      selectTime.price !== 0 &&
       setModal({ show: true, page: "confirm" });
   }, [selectTime]);
 
@@ -226,6 +233,7 @@ export const Reserve = () => {
   }, [modal]);
 
   const reserveFunc = () => {
+    console.log("selectTime", selectTime);
     try {
       const data = JSON.stringify({
         startTime: new Date(
@@ -235,6 +243,7 @@ export const Reserve = () => {
         coWorkId: Number(coWorkId),
         roomRateId: selectTime.roomRateId,
         userExId: userId.userId,
+        price: selectTime.price,
       });
       console.log("reserveFunc", data);
       const config = {
@@ -255,17 +264,36 @@ export const Reserve = () => {
         .then((response) => {
           console.log(JSON.stringify(response.data));
           setReserveCode(response.data);
+          setModal({ show: true, page: "result" });
         })
         .catch((error) => {
           console.log(error);
         });
-
-      setModal({ show: true, page: "result" });
     } catch (error) {
       console.log("error", error);
-      window.location.replace("/user/login");
+      // window.location.replace("/user/login");
     }
   };
+
+  const todayAndNextDayHour = (year, month, date, time) => {
+    return (
+      year >= new Date().getFullYear() &&
+      (month >= new Date().getMonth() + 1 || year > new Date().getFullYear()) &&
+      (date >= new Date().getDate() ||
+        month > new Date().getMonth() + 1 ||
+        year > new Date().getFullYear()) &&
+      (time >= new Date().getHours() ||
+        date > new Date().getDate() ||
+        month > new Date().getMonth() + 1 ||
+        year > new Date().getFullYear())
+    );
+  };
+
+  const strSelectRoomOnHead =
+    selectRoom !== 0
+      ? dataRooms?.BranchToRoom.filter((room) => room.roomId === selectRoom)[0]
+          .room.name
+      : "เลือกห้องประชุม";
 
   return (
     <div className="relative w-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20">
@@ -294,7 +322,9 @@ export const Reserve = () => {
                     ["rounded-l-full", "rounded-r-full"][idx]
                   } p-2 px-4`}
                 >
-                  <h1 className="">{["เลือกห้องประชุม", "เลือกเวลา"][idx]}</h1>
+                  <h1 className="">
+                    {[strSelectRoomOnHead, "เลือกเวลา"][idx]}
+                  </h1>
                 </button>
               ))}
             </div>
@@ -340,7 +370,14 @@ export const Reserve = () => {
                         key={`type_${type.type}`}
                       >
                         <p className="sticky top-0 bg-white text-center font-medium">
-                          {type.type} ชั่วโมง
+                          {type.type} ชั่วโมง ราคา ฿
+                          {
+                            dataRooms.BranchToRoom.filter(
+                              (room) => room.roomId === selectRoom
+                            )[0].room.RoomRate.filter(
+                              (rate) => rate.id === type.roomRateId
+                            )[0].price
+                          }
                         </p>
                         {type.start.map((time, idx) => (
                           <button
@@ -350,9 +387,23 @@ export const Reserve = () => {
                                 roomRateId: type.roomRateId,
                                 type: type.type,
                                 time: time,
+                                price: dataRooms.BranchToRoom.filter(
+                                  (room) => room.roomId === selectRoom
+                                )[0].room.RoomRate.filter(
+                                  (rate) => rate.id === type.roomRateId
+                                )[0].price,
                               })
                             }
-                            className="w-full bg-orange-200/50 hover:bg-orange-300 rounded-full p-2 px-4"
+                            className={`${
+                              todayAndNextDayHour(
+                                selectDateTime.year,
+                                selectDateTime.month,
+                                selectDateTime.date,
+                                time
+                              )
+                                ? "block"
+                                : "hidden"
+                            } w-full bg-orange-200/50 hover:bg-orange-300 rounded-full p-2 px-4`}
                           >
                             {`${time}:00 - ${time + type.type}:00`}
                           </button>
