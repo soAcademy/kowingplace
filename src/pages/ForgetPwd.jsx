@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export const Signup = () => {
+export const ForgetPwd = () => {
   const { typeUser } = useParams();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,31 +22,40 @@ export const Signup = () => {
 
   const handleSignup = () => {
     const registration = async () => {
-      const payload = {
+      const data = JSON.stringify({
         name: name,
         email: email,
-        tel: phone,
+        phone: phone,
         password: password,
+      });
+
+      const pathAPI =
+        typeUser === "partner"
+          ? "forgetPasswordUserInternal"
+          : "forgetPasswordUserExternal";
+      const redirectPath =
+        typeUser === "partner" ? "/partner/login" : "/user/login";
+
+      const config = {
+        method: "post",
+        url: `${import.meta.env.VITE_API_BACKEND}/kowing/${pathAPI}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
       };
 
-      const typeURL =
-        typeUser === "partner"
-          ? "createUserInternal"
-          : typeUser === "user"
-          ? "createUserExternal"
-          : "";
-      const fireSignup = await axios.post(
-        `${import.meta.env.VITE_API_BACKEND}/kowing/${typeURL}`,
-        payload
-      );
-
-      if (fireSignup.status === 200) {
-        navigate(redirectPath);
-      } else {
-        console.log(fireSignup);
-        alert("sign up fail");
-      }
+      axios
+        .request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+          navigate(redirectPath);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
+
     name !== "" &&
       email !== "" &&
       phone !== "" &&
@@ -66,7 +75,7 @@ export const Signup = () => {
       <div className="fixed w-full h-full top-0 left-0 flex justify-center items-center p-4">
         <div className="md:w-5/12 lg:w-1/3 flex flex-col gap-y-4 bg-white rounded-lg shadow-lg p-8">
           <div className="text-2xl text-center">
-            <h1>Your Information</h1>
+            <h1>FORGET PASSWORD</h1>
             <p className="text-sm">{textForUser}</p>
           </div>
 
@@ -98,7 +107,7 @@ export const Signup = () => {
             />
           </div>
           <div className="flex flex-col md:flex-row md:items-center gap-2">
-            <label className="w-3/12">Password</label>
+            <label className="w-3/12">New Password</label>
             <input
               type="password"
               className="w-9/12 border-2 rounded-full p-2 px-4"
@@ -107,7 +116,7 @@ export const Signup = () => {
             />
           </div>
           <div className="flex flex-col md:flex-row md:items-center gap-2">
-            <label className="w-3/12">Confirm Password</label>
+            <label className="w-3/12">Confirm New Password</label>
             <input
               type="password"
               className="w-9/12 border-2 rounded-full p-2 px-4"
@@ -119,7 +128,7 @@ export const Signup = () => {
             className="w-full font-medium bg-green-300 hover:bg-green-400 rounded-full p-2 px-4"
             onClick={() => handleSignup()}
           >
-            Sign-Up
+            Confirm
           </button>
           {/* <button className="w-full flex justify-center items-center gap-x-2">
             <p className="text-[0.75rem]">Sign-Up with</p>

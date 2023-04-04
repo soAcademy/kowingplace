@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { ContextUserId } from "@/App.jsx";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { PartnerMainNav } from "../../components";
 
@@ -7,6 +8,8 @@ export const SettingRoom = () => {
   const { userId, token } = useContext(ContextUserId);
   const [dataCoWork, setDataCoWork] = useState({});
   const [rooms, setRooms] = useState([]);
+  const navigate = useNavigate();
+
   console.log("userId", userId);
 
   useEffect(() => {
@@ -162,7 +165,7 @@ export const SettingRoom = () => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         // getOldData();
-        window.location.replace("/partner/main");
+        navigate("/partner/main");
       })
       .catch((error) => {
         console.log(error);

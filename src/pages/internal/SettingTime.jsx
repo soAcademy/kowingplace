@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { ContextUserId } from "@/App.jsx";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { PartnerMainNav } from "../../components";
 
@@ -26,6 +27,7 @@ export const SettingTime = () => {
     false,
     false,
   ]);
+  const navigate = useNavigate();
 
   console.log("userId", userId);
   console.log("open", open);
@@ -152,7 +154,7 @@ export const SettingTime = () => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         // getOldData();
-        window.location.replace("/partner/main");
+        navigate("/partner/main");
       })
       .catch((error) => {
         console.log(error);

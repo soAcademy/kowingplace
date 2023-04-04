@@ -12,6 +12,7 @@ import {
   SettingCo,
   SettingTime,
   Reservation,
+  ForgetPwd,
 } from "./pages";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Status } from "./pages/internal/Status";
@@ -42,7 +43,8 @@ export const App = () => {
         <Navbar />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/:typeUser/Login/" element={<Login />} />
+          <Route exact path="/:typeUser/login/" element={<Login />} />
+          <Route exact path="/:typeUser/forget/" element={<ForgetPwd />} />
           <Route exact path="/branch/:coWorkId" element={<Branch />} />
           <Route exact path="/reserve/:coWorkId" element={<Reserve />} />
           <Route exact path="/:typeUser/signup" element={<Signup />} />

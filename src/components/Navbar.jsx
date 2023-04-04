@@ -2,7 +2,7 @@ import { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/images/icons8-office-48.png";
 import { ContextUserId } from "../App";
-import { FaSignInAlt, FaUserCircle, FaSignOutAlt } from "react-icons/fa";
+import { FaSignInAlt, FaUserCircle } from "react-icons/fa";
 
 export const Navbar = () => {
   const { userId, setUserId, setToken } = useContext(ContextUserId);
@@ -23,6 +23,9 @@ export const Navbar = () => {
     setUserId({});
     setToken("");
   };
+
+  const redirectPathLogout =
+    setUserId?.role === "partner" ? "partner/welcome" : "/";
 
   return (
     <div className="navbarBlock fixed top-0 left-0 w-full flex justify-between z-10 bg-[#FFD8A9] shadow-lg font-medium font-prompt text-font-primary text-sm transition duration-300 px-4 p-2">
@@ -50,16 +53,15 @@ export const Navbar = () => {
             </div>
             <div className="relative group">
               <Link
-                to="/partner/welcome"
+                to={redirectPathLogout}
                 onClick={() => deleteToken()}
                 className="flex items-center gap-x-2"
               >
                 <FaUserCircle size={20} />
                 {userId.name}
               </Link>
-              <div className="hidden group-hover:flex items-center gap-x-2 absolute z-10 top-10 -right-2 bg-orange-400/50 text-white rounded-md px-4 py-2 text-sm whitespace-nowrap cursor-pointer">
+              <div className="hidden group-hover:flex items-center gap-x-2 absolute z-10 top-10 -right-2 bg-gray-800/50 text-white rounded-md px-4 py-2 text-sm whitespace-nowrap cursor-pointer">
                 Logout
-                <FaSignOutAlt />
               </div>
             </div>
           </div>

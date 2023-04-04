@@ -1,6 +1,7 @@
 export * from "./Home";
 export * from "./Login";
 export * from "./Signup";
+export * from "./ForgetPwd";
 export * from "./external/Branch";
 export * from "./external/Reserve";
 export * from "./external/Reservation";

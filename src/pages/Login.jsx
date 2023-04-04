@@ -12,8 +12,13 @@ export const Login = () => {
   const { typeUser } = useParams();
   console.log(typeUser);
 
+  const urlImg =
+    typeUser === "partner"
+      ? "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+      : "https://images.unsplash.com/photo-1604328698692-f76ea9498e76?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80";
+
   const typeURL =
-  typeUser === "partner"
+    typeUser === "partner"
       ? "loginUserInternal"
       : typeUser === "user"
       ? "loginUserExternal"
@@ -46,7 +51,7 @@ export const Login = () => {
   return (
     <div
       style={{
-        backgroundImage: `url(https://images.unsplash.com/photo-1604328698692-f76ea9498e76?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80)`,
+        backgroundImage: `url(${urlImg})`,
       }}
       className="w-full h-screen bg-cover bg-no-repeat bg-[center_left_-15rem] md:bg-center flex justify-center items-center text-font-primary font-prompt text-sm p-4 pt-20"
     >
@@ -73,8 +78,8 @@ export const Login = () => {
             />
           </div>
           <div className="flex justify-between text-gray-400 text-[0.75rem]">
-            <a href="#">Forget Password</a>
-            <Link to="/customer/signup">Create New Account</Link>
+            <Link to={`/${typeUser}/forget`}>Forget Password</Link>
+            <Link to={`/${typeUser}/signup`}>Create New Account</Link>
           </div>
           <button
             className="w-full font-medium bg-green-300 hover:bg-green-400 rounded-full duration-300 p-2 px-4"

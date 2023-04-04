@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { ContextUserId } from "@/App.jsx";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { PartnerMainNav } from "../../components";
 
@@ -14,6 +15,7 @@ export const SettingCo = () => {
   });
   const [dataFacilities, setDataFacilities] = useState([]);
   const [checkedFac, setCheckFac] = useState([]);
+  const navigate = useNavigate();
 
   console.log("userId", userId);
 
@@ -42,7 +44,7 @@ export const SettingCo = () => {
         .request(config)
         .then((response) => {
           console.log(JSON.stringify(response.data));
-          response.data.coWork !== null
+          response.data.coWork != null
             ? setDataCoWork(response.data.coWork)
             : setDataCoWork(dataCoWork);
         })
@@ -63,7 +65,7 @@ export const SettingCo = () => {
       axios
         .request(config)
         .then((response) => {
-          console.log(JSON.stringify(response.data));
+          console.log("query facilities", JSON.stringify(response.data));
           setDataFacilities(response.data);
         })
         .catch((error) => {
@@ -120,7 +122,7 @@ export const SettingCo = () => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         // getOldData();
-        window.location.replace("/partner/main");
+        navigate("/partner/main");
       })
       .catch((error) => {
         console.log(error);
