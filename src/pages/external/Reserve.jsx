@@ -282,7 +282,7 @@ export const Reserve = () => {
       (date >= new Date().getDate() ||
         month > new Date().getMonth() + 1 ||
         year > new Date().getFullYear()) &&
-      (time >= new Date().getHours() ||
+      (time > new Date().getHours() ||
         date > new Date().getDate() ||
         month > new Date().getMonth() + 1 ||
         year > new Date().getFullYear())

@@ -142,7 +142,7 @@ export const Calendar = ({ selectDateTime, setSelectDateTime, dayOpen }) => {
 
     return (dayOpen != undefined || dayOpen != null) &&
       Object.keys(dayOpen).length > 0
-      ? dayOpen[dayOpenString[today]]
+      ? dayOpen[dayOpenString[today - 1]] //config sun = 1 sat = 7
       : false;
   };
 

@@ -60,7 +60,7 @@ export const Login = () => {
           <h1 className="text-2xl text-center">LOGIN</h1>
           {typeUser === "partner" && <h1 className="text-center">Partner</h1>}
           <div className="flex flex-col md:flex-row md:items-center gap-2 ">
-            <label className="min-w-fit w-1/5">E-mail</label>
+            <label className="w-1/5">E-mail</label>
             <input
               type="email"
               className="w-full md:w-4/5 border-2 rounded-full p-2 px-4"
@@ -69,7 +69,7 @@ export const Login = () => {
             />
           </div>
           <div className="flex flex-col md:flex-row md:items-center gap-2">
-            <label className="min-w-fit w-1/5">Password</label>
+            <label className="w-1/5">Password</label>
             <input
               type="password"
               className="w-full md:w-4/5 border-2 rounded-full p-2 px-4"

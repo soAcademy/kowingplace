@@ -103,8 +103,11 @@ export const Main = () => {
               <div className="text-center md:text-left">
                 <p>{bookRoom.roomRate.duration.duration} hr(s).</p>
               </div>
-              <div className="text-center md:text-left">
-                <p>{bookRoom.vertifyCode.verifyCode}</p>
+              <div
+                className="md:text-left "
+                title={bookRoom.vertifyCode.verifyCode}
+              >
+                <p className="text-ellipsis overflow-hidden">{bookRoom.vertifyCode.verifyCode}</p>
               </div>
               <div className="text-center">
                 <p>฿{bookRoom.price}</p>

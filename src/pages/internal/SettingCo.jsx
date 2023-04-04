@@ -137,11 +137,14 @@ export const SettingCo = () => {
   };
 
   const updateCheckBox = (id) => {
+    console.log("id checkbox", id);
     console.log("checkedFac", checkedFac);
     const _temp =
-      checkedFac.filter((r) => r === id).length > 0
-        ? checkedFac.filter((r) => r !== id)
-        : [...checkedFac, id];
+      checkedFac != undefined
+        ? checkedFac.filter((r) => r === id).length > 0
+          ? checkedFac.filter((r) => r !== id)
+          : [...checkedFac, id]
+        : [id];
     console.log("updateCheckBox", _temp);
     setCheckFac(_temp);
   };
@@ -231,7 +234,7 @@ export const SettingCo = () => {
                 Facility Lists
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3">
-                {dataFacilities.map((r, idx) => (
+                {dataFacilities?.map((r, idx) => (
                   <div
                     key={`facCheck_${idx}`}
                     className="flex items-center mb-4"
