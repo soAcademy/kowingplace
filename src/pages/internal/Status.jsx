@@ -18,12 +18,14 @@ export const Status = () => {
     const data = JSON.stringify({
       userId: userId.userId,
       status: status.toUpperCase(),
+      orderBy: "startTime",
+      inDeCrease: "asc",
     });
-
+    console.log("submit_data", data);
     const config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: `${import.meta.env.VITE_API_BACKEND}/kowing/getBookRoomByPartnerId`,
+      url: `${import.meta.env.VITE_API_BACKEND}/kowing/getReserveByStat`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -113,7 +115,7 @@ export const Status = () => {
                 </p>
               </div>
               <div className="text-center">
-                <p>฿{bookRoom.roomRate.price}</p>
+                <p>฿{bookRoom.price}</p>
               </div>
               <button
                 onClick={() => updateStatus(bookRoom.id, bookRoom.status)}

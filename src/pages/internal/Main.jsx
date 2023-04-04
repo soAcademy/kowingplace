@@ -16,7 +16,6 @@ export const Main = () => {
   const getData = () => {
     const data = JSON.stringify({
       userId: userId.userId,
-      status: "",
     });
     console.log("data", data);
     const config = {
