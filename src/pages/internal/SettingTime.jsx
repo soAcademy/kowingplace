@@ -41,39 +41,39 @@ export const SettingTime = () => {
 
   useEffect(() => {
     const strOpen = [
+      "sunOpen",
       "monOpen",
       "tueOpen",
       "wedOpen",
       "thursOpen",
       "friOpen",
       "satOpen",
-      "sunOpen",
     ].map(
       (str) => dataCoWork?.coWork?.Open != null && dataCoWork.coWork.Open[str]
     );
     dataCoWork?.coWork?.Open != null && setOpenTime(strOpen);
 
     const strClosed = [
+      "sunClose",
       "monClose",
       "tueClose",
       "wedClose",
       "thursClose",
       "friClose",
       "satClose",
-      "sunClose",
     ].map(
       (str) => dataCoWork?.coWork?.Close != null && dataCoWork.coWork.Close[str]
     );
     dataCoWork?.coWork?.Close != null && setClosedTime(strClosed);
 
     const strOpenClosed24Hours = [
+      "sun24hours",
       "mon24hours",
       "tue24hours",
       "wed24hours",
       "thurs24hours",
       "fri24hours",
       "sat24hours",
-      "sun24hours",
     ].map(
       (str) =>
         dataCoWork?.coWork?.OpenClose24Hours != null &&
@@ -83,13 +83,13 @@ export const SettingTime = () => {
       setOpenClosed24Hours(strOpenClosed24Hours);
 
     const strOpenClosedBoolean = [
+      "sunOnOff",
       "monOnOff",
       "tueOnOff",
       "wedOnOff",
       "thursOnOff",
       "friOnOff",
       "satOnOff",
-      "sunOnOff",
     ].map(
       (str) =>
         dataCoWork?.coWork?.OpenCloseBoolean != null &&
@@ -129,10 +129,10 @@ export const SettingTime = () => {
   const submitData = () => {
     const data = JSON.stringify({
       open: open.map((r, idx) =>
-        !r ? 0 : openClosed24Hours[idx] ? 0 : openTime[idx]
+        r ? (openClosed24Hours[idx] ? 0 : openTime[idx]) : 0
       ),
       close: open.map((r, idx) =>
-        !r ? 0 : openClosed24Hours[idx] ? 0 : closedTime[idx]
+        r ? (openClosed24Hours[idx] ? 0 : closedTime[idx]) : 0
       ),
       openCloseBoolean: open,
       openClose24hours: openClosed24Hours,
