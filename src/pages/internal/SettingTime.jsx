@@ -184,14 +184,13 @@ export const SettingTime = () => {
   };
 
   return (
-    <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm p-4 pt-20 md:py-20">
+    <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm p-4 pt-20">
       <div className="w-full lg:w-3/4 flex flex-col gap-y-8">
-        <div className="header">
+        <div className="header mb-0 md:mb-8">
           <h1 className="text-2xl text-center">{dataCoWork?.coWork?.name}</h1>
         </div>
         <PartnerMainNav />
-        {/* {dataCoWork?.coWork?.id !== undefined && ( */}
-        <>
+        <div className="flex flex-col gap-y-4 pl-14 md:pl-0">
           <div className="timeBlock flex flex-col gap-y-2 mt-8">
             <p className="font-medium">Setting: OPEN / CLOSED Time</p>
             <div className="relative overflow-x-auto">
@@ -359,8 +358,7 @@ export const SettingTime = () => {
               </button>
             )}
           </div>
-        </>
-        {/* )} */}
+        </div>
       </div>
     </div>
   );
