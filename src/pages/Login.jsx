@@ -30,7 +30,7 @@ export const Login = () => {
       email: email,
       password: password,
     });
-    console.log("fireLogin", fireLoginData);
+    //console.log("fireLogin", fireLoginData);
     if (fireLoginData.status === 200) {
       localStorage.setItem("token", fireLoginData.data.token);
       localStorage.setItem(
@@ -48,6 +48,13 @@ export const Login = () => {
     }
   };
 
+  const validateLogin = (e) => {
+    e.preventDefault();
+
+    setEmail(email.includes("@") ? "" : "รูปแบบอีเมลล์ไม่ถูกต้อง");
+    setPassword(password.length > 3 ? "" : "รหัสผ่านต้องมีมากกว่า 3 ตัว");
+  };
+
   return (
     <div
       style={{
@@ -57,40 +64,42 @@ export const Login = () => {
     >
       <div className="fixed w-full h-full top-0 left-0 flex justify-center items-center p-4">
         <div className="md:w-5/12 lg:w-1/3 flex flex-col gap-y-4 bg-white rounded-lg shadow-lg p-8">
-          <h1 className="text-2xl text-center">LOGIN</h1>
-          {typeUser === "partner" && <h1 className="text-center">Partner</h1>}
-          <div className="flex flex-col md:flex-row md:items-center gap-2 ">
-            <label className="w-1/5">E-mail</label>
-            <input
-              type="email"
-              className="w-full md:w-4/5 border-2 rounded-full p-2 px-4"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-            />
-          </div>
-          <div className="flex flex-col md:flex-row md:items-center gap-2">
-            <label className="w-1/5">Password</label>
-            <input
-              type="password"
-              className="w-full md:w-4/5 border-2 rounded-full p-2 px-4"
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-            />
-          </div>
-          <div className="flex justify-between text-gray-400 text-[0.75rem]">
-            <Link to={`/${typeUser}/forget`}>Forget Password</Link>
-            <Link to={`/${typeUser}/signup`}>Create New Account</Link>
-          </div>
-          <button
-            className="w-full font-medium bg-green-300 hover:bg-green-400 rounded-full duration-300 p-2 px-4"
-            onClick={() => Login()}
-          >
-            Login
-          </button>
-          {/* <button className="w-full flex justify-center items-center gap-x-2">
+          <form onSubmit={validateLogin}>
+            <h1 className="text-2xl text-center">LOGIN</h1>
+            {typeUser === "partner" && <h1 className="text-center">Partner</h1>}
+            <div className="flex flex-col md:flex-row md:items-center gap-2 ">
+              <label className="w-1/5">E-mail</label>
+              <input
+                type="email"
+                className="w-full md:w-4/5 border-2 rounded-full p-2 px-4"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+              />
+            </div>
+            <div className="flex flex-col md:flex-row md:items-center gap-2">
+              <label className="w-1/5">Password</label>
+              <input
+                type="password"
+                className="w-full md:w-4/5 border-2 rounded-full p-2 px-4"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              />
+            </div>
+            <div className="flex justify-between text-gray-400 text-[0.75rem]">
+              <Link to={`/${typeUser}/forget`}>Forget Password</Link>
+              <Link to={`/${typeUser}/signup`}>Create New Account</Link>
+            </div>
+            <button
+              className="w-full font-medium bg-green-300 hover:bg-green-400 rounded-full duration-300 p-2 px-4"
+              onClick={() => Login()}
+            >
+              Login
+            </button>
+            {/* <button className="w-full flex justify-center items-center gap-x-2">
             <p className="text-[0.75rem]">Login with</p>
             <FcGoogle className="text-3xl" />
           </button> */}
+          </form>
         </div>
       </div>
     </div>
