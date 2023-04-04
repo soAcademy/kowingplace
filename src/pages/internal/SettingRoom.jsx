@@ -172,6 +172,13 @@ export const SettingRoom = () => {
       });
   };
 
+  const deleteRoomHandle = async () => {
+    const fireDelete = await axios.post(
+      "http://localhost:7470/kowing/deleteRoom"
+    );
+    return fireDelete;
+  };
+
   return (
     <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20 md:py-20">
       <div className="w-full md:w-3/4 flex flex-col gap-y-8">
@@ -298,7 +305,10 @@ export const SettingRoom = () => {
                 </div>
               </div>
               <div className="flex justify-between">
-                <button className="bg-red-300 font-medium hover:bg-red-400 rounded-full p-2 px-4">
+                <button
+                  className="bg-red-300 font-medium hover:bg-red-400 rounded-full p-2 px-4"
+                  onClick={() => deleteRoomHandle()}
+                >
                   ลบห้อง
                 </button>
                 {room.branchToRoomId === 0 ? (
