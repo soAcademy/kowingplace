@@ -172,11 +172,30 @@ export const SettingRoom = () => {
       });
   };
 
-  const deleteRoomHandle = async () => {
-    const fireDelete = await axios.post(
-      "http://localhost:7470/kowing/deleteRoom"
-    );
-    return fireDelete;
+  const deleteRoom = (roomId) => {
+    console.log("delete rooId", roomId);
+    const data = JSON.stringify({
+      roomId: roomId,
+    });
+
+    const config = {
+      method: "post",
+      url: `${import.meta.env.VITE_API_BACKEND}/kowing/deleteRoom`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        navigate("/partner/main");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -307,7 +326,7 @@ export const SettingRoom = () => {
               <div className="flex justify-between">
                 <button
                   className="bg-red-300 font-medium hover:bg-red-400 rounded-full p-2 px-4"
-                  onClick={() => deleteRoomHandle()}
+                  onClick={() => deleteRoom(room.roomId)}
                 >
                   ลบห้อง
                 </button>
