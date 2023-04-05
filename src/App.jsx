@@ -21,21 +21,24 @@ export const ContextUserId = createContext();
 
 export const App = () => {
   const [userId, setUserId] = useState({}); //
-  const [token, setToken] = useState(null);
-  const getLocalToken = localStorage.getItem("token");
+  const [token, setToken] = useState({});
 
   useEffect(() => {
     try {
       setUserId(JSON.parse(localStorage.getItem("userData")));
+      setToken(localStorage.getItem("token"));
     } catch (error) {
-      // console.log("error", error);
-      // deleteToken();
+      console.log("error", error);
     }
   }, []);
 
   useEffect(() => {
-    setToken(getLocalToken);
-  }, [getLocalToken]);
+    token != null && Object.keys(token).length > 1 && localStorage.setItem("token", token);
+  }, [token]);
+
+  useEffect(() => {
+    userId != null && Object.keys(userId).length > 1 && localStorage.setItem("userData", JSON.stringify(userId));
+  }, [userId]);
 
   return (
     <BrowserRouter>

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Calendar } from "../../components";
 import { useState, useEffect, useRef, useContext } from "react";
 import logo from "@/assets/images/letter-k.png";
@@ -31,6 +31,7 @@ export const Reserve = () => {
   });
   const [reserveCode, setReserveCode] = useState("");
   const modalRef = useRef(null);
+  const navigate = useNavigate();
 
   console.log("userId", userId);
 
@@ -234,7 +235,8 @@ export const Reserve = () => {
 
   const reserveFunc = () => {
     console.log("selectTime", selectTime);
-    try {
+
+    const reserve = () => {
       const data = JSON.stringify({
         startTime: new Date(
           `${selectDateTime.year}-${selectDateTime.month}-${selectDateTime.date} ${selectTime.time}:00:00.000`
@@ -269,10 +271,9 @@ export const Reserve = () => {
         .catch((error) => {
           console.log(error);
         });
-    } catch (error) {
-      console.log("error", error);
-      // window.location.replace("/user/login");
-    }
+    };
+
+    userId.role === "user" ? reserve() : navigate("/user/login");
   };
 
   const todayAndNextDayHour = (year, month, date, time) => {

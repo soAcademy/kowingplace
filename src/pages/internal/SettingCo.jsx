@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { ContextUserId } from "@/App.jsx";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { PartnerMainNav } from "../../components";
 
@@ -20,7 +20,13 @@ export const SettingCo = () => {
   console.log("userId", userId);
 
   useEffect(() => {
-    getOldData();
+    try {
+      Object.keys(userId).length > 0 &&
+        userId.role === "partner" &&
+        getOldData();
+    } catch (error) {
+      navigate("/partner/welcome");
+    }
   }, [userId]);
 
   //get old data
@@ -153,12 +159,12 @@ export const SettingCo = () => {
     <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20">
       <div className="w-full md:w-3/4 flex flex-col gap-y-4">
         <div className="header mb-0 md:mb-8">
-          <h1 className="text-2xl text-center">{dataCoWork?.name}</h1>
+          <h1 className="h-8 text-2xl text-center">{dataCoWork?.name}</h1>
         </div>
         <PartnerMainNav />
-        <div className="flex flex-col gap-y-4 pl-14 md:pl-0">
+        <div className="flex flex-col gap-y-4 pl-12 md:pl-0">
           <div className="uploadPicBlock flex flex-col gap-y-4 mt-8">
-            <div className="flex items-center gap-x-2">
+            <div className="flex flex-col md:flex-row md:items-center gap-2">
               <label className="font-medium flex-none">
                 Your Co-Working Name
               </label>
@@ -171,7 +177,7 @@ export const SettingCo = () => {
             </div>
           </div>
           <div className="uploadPicBlock flex flex-col gap-y-4">
-            <div className="flex items-center gap-x-2">
+            <div className="flex flex-col md:flex-row md:items-center gap-2">
               <label className="font-medium flex-none">Image</label>
               <input
                 type="text"
@@ -206,7 +212,7 @@ export const SettingCo = () => {
               ></textarea>
             </div>
 
-            <div className="flex items-center gap-x-2">
+            <div className="flex flex-col md:flex-row md:items-center gap-2">
               <label className="font-medium">
                 Tel Contact: Co-Working Space
               </label>
@@ -266,14 +272,14 @@ export const SettingCo = () => {
             {dataCoWork?.id === undefined ? (
               <button
                 onClick={() => submitBtn("create")}
-                className="w-40 font-medium bg-green-300 hover:bg-green-400 duration-300 rounded-full p-2 px-4"
+                className="w-full md:w-40 font-medium bg-green-300 hover:bg-green-400 duration-300 rounded-full p-2 px-4"
               >
                 บันทึก
               </button>
             ) : (
               <button
                 onClick={() => submitBtn("update")}
-                className="w-40 font-medium bg-green-300 hover:bg-green-400 duration-300 rounded-full p-2 px-4"
+                className="w-full md:w-40 font-medium bg-green-300 hover:bg-green-400 duration-300 rounded-full p-2 px-4"
               >
                 อัพเดต
               </button>

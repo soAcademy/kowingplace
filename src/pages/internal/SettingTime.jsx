@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { ContextUserId } from "@/App.jsx";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { PartnerMainNav } from "../../components";
 
@@ -36,7 +36,13 @@ export const SettingTime = () => {
   console.log("openClosed24Hours", openClosed24Hours);
 
   useEffect(() => {
-    getOldData();
+    try {
+      Object.keys(userId).length > 0 &&
+        userId.role === "partner" &&
+        getOldData();
+    } catch (error) {
+      navigate("/partner/welcome");
+    }
   }, [userId]);
 
   useEffect(() => {
@@ -185,12 +191,14 @@ export const SettingTime = () => {
 
   return (
     <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm p-4 pt-20">
-      <div className="w-full lg:w-3/4 flex flex-col gap-y-8">
+      <div className="w-full lg:w-3/4 flex flex-col gap-y-4">
         <div className="header mb-0 md:mb-8">
-          <h1 className="text-2xl text-center">{dataCoWork?.coWork?.name}</h1>
+          <h1 className="h-8 text-2xl text-center">
+            {dataCoWork?.coWork?.name}
+          </h1>
         </div>
         <PartnerMainNav />
-        <div className="flex flex-col gap-y-4 pl-14 md:pl-0">
+        <div className="flex flex-col gap-y-4 pl-12 md:pl-0">
           <div className="timeBlock flex flex-col gap-y-2 mt-8">
             <p className="font-medium">Setting: OPEN / CLOSED Time</p>
             <div className="relative overflow-x-auto">
@@ -227,8 +235,14 @@ export const SettingTime = () => {
                               onChange={(e) =>
                                 settingFunc(open, setOpen, idx, e.target.value)
                               }
+                              className="cursor-pointer"
                             />
-                            <label htmlFor={`${days[idx]}_open`}>Open</label>
+                            <label
+                              className="cursor-pointer"
+                              htmlFor={`${days[idx]}_open`}
+                            >
+                              Open
+                            </label>
                           </div>
                           <div className="flex gap-x-2">
                             <input
@@ -240,8 +254,12 @@ export const SettingTime = () => {
                               onChange={(e) =>
                                 settingFunc(open, setOpen, idx, e.target.value)
                               }
+                              className="cursor-pointer"
                             />
-                            <label htmlFor={`${days[idx]}_closed`}>
+                            <label
+                              className="cursor-pointer"
+                              htmlFor={`${days[idx]}_closed`}
+                            >
                               Closed
                             </label>
                           </div>
@@ -257,7 +275,8 @@ export const SettingTime = () => {
                               id={`${days[idx]}_24yes`}
                               value={true}
                               checked={openClosed24Hours[idx]}
-                              disabled={!open[idx]}
+                              // disabled={!open[idx]}
+                              disabled={true} //feature log
                               onChange={(e) =>
                                 settingFunc(
                                   openClosed24Hours,
@@ -266,8 +285,14 @@ export const SettingTime = () => {
                                   e.target.value
                                 )
                               }
+                              className="cursor-pointer"
                             />
-                            <label htmlFor={`${days[idx]}_24yes`}>Yes</label>
+                            <label
+                              className="cursor-pointer"
+                              htmlFor={`${days[idx]}_24yes`}
+                            >
+                              Yes
+                            </label>
                           </div>
                           <div className="flex gap-x-2">
                             <input
@@ -276,7 +301,8 @@ export const SettingTime = () => {
                               id={`${days[idx]}_24no`}
                               value={false}
                               checked={!openClosed24Hours[idx]}
-                              disabled={!open[idx]}
+                              // disabled={!open[idx]}
+                              disabled={true} //feature log
                               onChange={(e) =>
                                 settingFunc(
                                   openClosed24Hours,
@@ -285,8 +311,14 @@ export const SettingTime = () => {
                                   e.target.value
                                 )
                               }
+                              className="cursor-pointer"
                             />
-                            <label htmlFor={`${days[idx]}_24no`}>No</label>
+                            <label
+                              className="cursor-pointer"
+                              htmlFor={`${days[idx]}_24no`}
+                            >
+                              No
+                            </label>
                           </div>
                         </div>
                       </td>
@@ -295,7 +327,7 @@ export const SettingTime = () => {
                         <div className="openTime">
                           <select
                             id="openTime"
-                            className="border border-gray-300 text-sm rounded-lg block p-1 md:p-2"
+                            className="border border-gray-300 text-sm rounded-lg block cursor-pointer p-1 md:p-2"
                             disabled={!open[idx] || openClosed24Hours[idx]}
                             value={openTime[idx]}
                             onChange={(e) =>
@@ -321,7 +353,7 @@ export const SettingTime = () => {
                         <div className="closedTime">
                           <select
                             id="closedTime"
-                            className="border border-gray-300 text-sm rounded-lg block p-1 md:p-2"
+                            className="border border-gray-300 text-sm rounded-lg block cursor-pointer p-1 md:p-2"
                             disabled={!open[idx] || openClosed24Hours[idx]}
                             value={closedTime[idx]}
                             onChange={(e) =>
@@ -352,7 +384,7 @@ export const SettingTime = () => {
             {dataCoWork.coWork != null && (
               <button
                 onClick={() => submitData()}
-                className="w-40 font-medium bg-green-300 hover:bg-green-400 rounded-full p-2 px-4"
+                className="w-full md:w-40 font-medium bg-green-300 hover:bg-green-400 rounded-full p-2 px-4"
               >
                 บันทึก
               </button>

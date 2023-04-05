@@ -11,7 +11,7 @@ import {
 
 export const PartnerMainNav = () => {
   return (
-    <div className="fixed z-40 md:relative top-[20%] md:top-0 left-4 md:left-0 w-8 md:w-full md:flex flex-row flex-wrap justify-center lg:justify-between gap-2 pt-20 md:pt-0">
+    <div className="fixed z-40 md:z-0 md:relative top-[20%] md:top-0 left-4 md:left-0 w-8 md:w-full md:flex flex-row flex-wrap justify-between gap-2 md:pt-0">
       <div className="btnStatus flex flex-col md:flex-row items-center gap-2 mb-4">
         <p className="text-xs md:text-base">Status:</p>
         <Link

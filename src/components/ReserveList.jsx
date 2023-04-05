@@ -44,30 +44,32 @@ export const ReserveList = ({ getData, dataCoWork }) => {
   };
 
   return (
-    <div className="listQuery w-full flex md:block flex-row justify-center pl-14 md:pl-0">
+    <div className="listQuery w-full flex md:block flex-col justify-center pl-12 md:pl-0">
       {dataCoWork?.coWork?.bookRoom?.map((bookRoom, idx) => (
         <div
           key={`room_${idx + 1}`}
-          className={`w-full sm:w-1/2 md:w-full grid grid-cols-1 md:grid-cols-7 gap-2 bg-orange-100/20 items-center border-2 border-l-4 ${borderColor(
+          className={`w-full sm:w-1/2 md:w-full md:grid md:grid-cols-5 gap-2 bg-orange-100/20 items-center border-2 border-l-4 ${borderColor(
             bookRoom.status
           )} rounded-lg shadow-md p-2 md:p-4 mb-4`}
         >
-          <div className="text-center md:text-left">
-            <p>{bookRoom.roomRate.room.name}</p>
+          <div className="text-center md:text-left mb-2 md:mb-0">
+            <p className="font-medium">{bookRoom.roomRate.room.name}</p>
           </div>
-          <div className="text-center md:text-right">
+
+          <div className="w-1/2 md:w-full md:text-left inline-block">
             <p>{new Date(bookRoom.startTime).toDateString()}</p>
           </div>
-          <div className="text-center">
-            <p>
+
+          <div className="w-1/2 md:w-full md:flex flex-wrap inline-block">
+            <p className="w-1/3 inline-block">
               {new Date(bookRoom.startTime)
                 .toLocaleTimeString("TH-th")
                 .substring(0, 5)}
             </p>
+            <p className="w-1/3 inline-block">{bookRoom.roomRate.duration.duration} hr(s).</p>
+            <p className="w-1/3 inline-block">฿{bookRoom.price}</p>
           </div>
-          <div className="text-center md:text-left">
-            <p>{bookRoom.roomRate.duration.duration} hr(s).</p>
-          </div>
+
           <div
             className="md:text-left "
             title={bookRoom.vertifyCode.verifyCode}
@@ -76,12 +78,9 @@ export const ReserveList = ({ getData, dataCoWork }) => {
               {bookRoom.vertifyCode.verifyCode}
             </p>
           </div>
-          <div className="text-center">
-            <p>฿{bookRoom.price}</p>
-          </div>
           <button
             onClick={() => updateStatus(bookRoom.id, bookRoom.status)}
-            className="text-center rounded-md bg-orange-200/50 shadow-md hover:bg-orange-200/70 duration-300 p-2 px-4"
+            className="w-full text-center rounded-md bg-orange-200/50 shadow-md hover:bg-orange-200/70 duration-300 p-2 px-4"
             disabled={bookRoom.status === "DONE"}
           >
             <p

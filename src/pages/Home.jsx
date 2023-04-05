@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CardLink, Carousel } from "../components";
 import { FaRegThumbsUp, FaRegClock } from "react-icons/fa";
 import axios from "axios";
@@ -17,6 +17,27 @@ export const Home = () => {
         "https://www.mangozero.com/wp-content/uploads/2017/11/7-benefits-of-co-working-space-featured.jpg",
       link: "https://www.mangozero.com/7-benefits-of-co-working-space/",
     },
+    {
+      id: 2,
+      name: "5 เหตุผล ทำไมผู้ประกอบการยุคใหม่ เลือกใช้ Co-working Space เป็นออฟฟิศ?",
+      image:
+        "https://eventbanana.blob.core.windows.net/blogcontainer/2e1f3c7-f1d7.jpg",
+      link: "https://www.eventbanana.com/th/blogs/blog-5-reasons-to-choose-co-working-space",
+    },
+    {
+      id: 3,
+      name: "ทำไม Co-Working Space คือคำตอบของพื้นที่คนทำงาน ในโลกยุคใหม่",
+      image:
+        "https://images.condonewb.com/media/1649128972974_750x500_040422-condonewb-Co-Working-Space.webp",
+      link: "https://www.condonewb.com/lifestyle/19/Co-Working-Space-%E0%B8%84%E0%B8%B7%E0%B8%AD",
+    },
+    {
+      id: 4,
+      name: "ความลับของการทำงานใน Coworking Space ที่ไม่มีใครเคยบอกคุณ",
+      image:
+        "https://uploads-ssl.webflow.com/5c3aef15e76e088efcf1e0ea/5d53d8826e49610f34057f47_5d53c9a02086e79dd5306566_G5814QNyc8X9x05nLATnkuINqbGksSysM27Q-sfxixE52xjFv1byCbEfuUyPKWZpwvjdvSK2_iEBIi5GVgDaTpCVOSokt19HYwW26HHy1snPZjvUR9IZfxVCodzRJ9TPD1nneReu.jpeg",
+      link: "https://www.hubbathailand.com/hubba-blog/working-at-coworkingspace",
+    },
   ];
 
   useEffect(() => {
@@ -24,9 +45,7 @@ export const Home = () => {
 
     const config = {
       method: "post",
-      maxBodyLength: Infinity,
       url: `${import.meta.env.VITE_API_BACKEND}/kowing/getCoworks`,
-      // headers: { token: localStorage.getItem("token") },
       headers: {},
       data: data,
     };
@@ -37,16 +56,14 @@ export const Home = () => {
         // console.log(JSON.stringify(response.data));
         const result = response.data.sort((a, b) => Math.random() - 0.5);
         setDataCoWorks(result);
-        const _result = result.sort((a, b) => Math.random() - 0.3);
-        set_TempDataCoWorks(_result);
+        const _newFeat = [...Array(6)].reduce(
+          (acc,r) => {
+            const index = Math.floor(Math.random() * result.length);
+            return [...acc, result[index]];
+          },[]);
+        set_TempDataCoWorks(_newFeat);
       })
       .catch((error) => {
-        // //ลบ token ที่หมดอายุแล้วใน localstorage
-        if (error.response.data.isDeleteToken) {
-          localStorage.removeItem("token");
-          //go back to login page
-          navigate("/Login");
-        }
         console.log(error);
       });
   }, []);
@@ -70,7 +87,7 @@ export const Home = () => {
           )}
           <div className="w-full">
             <div className="">
-              <div className="flex flex-no-wrap gap-x-2 md:gap-x-5 overflow-x-scroll scrolling-touch items-start pb-4">
+              <div className="flex flex-no-wrap gap-x-2 md:gap-x-5 overflow-x-scroll scrolling-touch items-center pb-4">
                 {dataCoWorks?.map((data, idx) => (
                   <CardLink key={`data_${idx}`} data={data} />
                 ))}
@@ -80,13 +97,14 @@ export const Home = () => {
         </div>
 
         <div className="allDayAllNightBlock flex flex-col gap-y-2 md:gap-y-4">
-          <div className="w-full md:w-fit flex items-center bg-orange-300 rounded-lg p-2 px-4">
-            <h1 className="font-medium mr-2">Co-Working เปิด 24 ชั่วโมง</h1>
+          <div className="w-full md:w-fit flex items-center gap-x-2 bg-orange-300 rounded-lg p-2 px-4">
+            <h1 className="font-medium">เปิด 24 ชั่วโมง</h1>
             <FaRegClock />
+            <p>(ยังไม่เปิดใช้งาน)</p>
           </div>
           <div className="w-full">
             <div className="">
-              <div className="flex flex-no-wrap gap-x-2 md:gap-x-5 overflow-x-scroll scrolling-touch items-start pb-4">
+              <div className="flex flex-no-wrap gap-x-2 md:gap-x-5 overflow-x-scroll scrolling-touch items-center pb-4">
                 {_tempDataCoWorks?.map((data, idx) => (
                   <CardLink key={`data_${idx}`} data={data} />
                 ))}
@@ -98,7 +116,7 @@ export const Home = () => {
         <Carousel
           slides={topics?.map((r) => ({
             id: r.id,
-            name: "",
+            name: r.name,
             image: r.image,
             link: r.link,
           }))}

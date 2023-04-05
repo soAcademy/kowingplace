@@ -7,15 +7,6 @@ import { FaSignInAlt, FaUserCircle } from "react-icons/fa";
 export const Navbar = () => {
   const { userId, setUserId, setToken } = useContext(ContextUserId);
 
-  // useEffect(() => {
-  //   try {
-  //     setUserId(JSON.parse(localStorage.getItem("userData")));
-  //   } catch (error) {
-  //     // console.log("error", error);
-  //     deleteToken();
-  //   }
-  // }, []);
-
   const deleteToken = () => {
     setToken(null);
     localStorage.removeItem("token");
@@ -33,9 +24,9 @@ export const Navbar = () => {
         <Link to="/">
           <img src={Logo} className="w-[35px]" />
         </Link>
-        <Link to="/" className="hover:text-gray-800">
+        {/* <Link to="/" className="hover:text-gray-800">
           Home
-        </Link>
+        </Link> */}
         <Link
           to={`/partner/${userId?.role === "partner" ? "main" : "welcome"}`}
           className="hover:text-gray-800"

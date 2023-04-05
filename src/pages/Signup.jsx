@@ -71,46 +71,46 @@ export const Signup = () => {
           </div>
 
           <div className="flex flex-col md:flex-row md:items-center gap-2">
-            <label className="w-3/12">Name</label>
+            <label className="w-full md:w-3/12">Name</label>
             <input
               type="string"
-              className="w-9/12 border-2 rounded-full p-2 px-4"
+              className="w-full md:w-9/12 border-2 rounded-full p-2 px-4"
               onChange={(e) => setName(e.target.value)}
               value={name}
             />
           </div>
           <div className="flex flex-col md:flex-row md:items-center gap-2">
-            <label className="w-3/12">E-mail</label>
+            <label className="w-full md:w-3/12">E-mail</label>
             <input
               type="email"
-              className="w-9/12 border-2 rounded-full p-2 px-4"
+              className="w-full md:w-9/12 border-2 rounded-full p-2 px-4"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
           </div>
           <div className="flex flex-col md:flex-row md:items-center gap-2">
-            <label className="w-3/12">Phone</label>
+            <label className="w-full md:w-3/12">Phone</label>
             <input
               type="text"
-              className="w-9/12 border-2 rounded-full p-2 px-4"
+              className="w-full md:w-9/12 border-2 rounded-full p-2 px-4"
               onChange={(e) => setPhone(e.target.value)}
               value={phone}
             />
           </div>
           <div className="flex flex-col md:flex-row md:items-center gap-2">
-            <label className="w-3/12">Password</label>
+            <label className="w-full md:w-3/12">Password</label>
             <input
               type="password"
-              className="w-9/12 border-2 rounded-full p-2 px-4"
+              className="w-full md:w-9/12 border-2 rounded-full p-2 px-4"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
           </div>
           <div className="flex flex-col md:flex-row md:items-center gap-2">
-            <label className="w-3/12">Confirm Password</label>
+            <label className="w-full md:w-3/12">Confirm Password</label>
             <input
               type="password"
-              className="w-9/12 border-2 rounded-full p-2 px-4"
+              className="w-full md:w-9/12 border-2 rounded-full p-2 px-4"
               onChange={(e) => setConfirmPassword(e.target.value)}
               value={confirmPassword}
             />

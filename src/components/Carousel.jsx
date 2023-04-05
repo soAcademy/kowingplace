@@ -34,10 +34,11 @@ export const Carousel = ({ slides }) => {
         }}
         className="relative w-full h-full rounded-lg bg-center bg-cover duration-500"
       >
-        <Link
-          to={slides[currCrsIndex]?.link}
+        <a
+          href={slides[currCrsIndex]?.link}
+          target="_blank"
           className="absolute w-full h-full"
-        ></Link>
+        ></a>
         {/* left arrow */}
         <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
           <BsChevronCompactLeft onClick={prevCrsBtn} size={30} />
@@ -48,7 +49,7 @@ export const Carousel = ({ slides }) => {
         </div>
 
         {slides[currCrsIndex]?.name && (
-          <div className="absolute w-2/5 h-1/6 flex justify-center items-center text-white md:text-xl bottom-4 right-4 bg-slate-200/30 rounded-lg p-4">
+          <div className="absolute w-2/5 h-fit flex justify-center items-center text-white md:text-xl bottom-4 right-4 bg-slate-500/50 rounded-lg p-4">
             {slides[currCrsIndex]?.name}
           </div>
         )}

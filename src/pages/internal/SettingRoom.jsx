@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { ContextUserId } from "@/App.jsx";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { PartnerMainNav } from "../../components";
 
@@ -13,7 +13,13 @@ export const SettingRoom = () => {
   console.log("userId", userId);
 
   useEffect(() => {
-    getOldData();
+    try {
+      Object.keys(userId).length > 0 &&
+        userId.role === "partner" &&
+        getOldData();
+    } catch (error) {
+      navigate("/partner/welcome");
+    }
   }, [userId]);
 
   //get old data
@@ -200,12 +206,12 @@ export const SettingRoom = () => {
 
   return (
     <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20">
-      <div className="w-full md:w-3/4 flex flex-col gap-y-8">
+      <div className="w-full md:w-3/4 flex flex-col gap-y-4">
         <div className="header mb-0 md:mb-8">
-          <h1 className="text-2xl text-center">{dataCoWork?.name}</h1>
+          <h1 className="h-8 text-2xl text-center">{dataCoWork?.name}</h1>
         </div>
         <PartnerMainNav />
-        <div className="flex flex-col gap-y-4 pl-14 md:pl-0">
+        <div className="flex flex-col gap-y-4 pl-12 md:pl-0">
           <div className="createBtn">
             <button
               onClick={() => newRoom()}
@@ -290,14 +296,15 @@ export const SettingRoom = () => {
                             htmlFor={`checkboxRoom_${room.branchToRoomId}_duration_${duration}`}
                             className="cursor-pointer"
                           >
-                            ระยะเวลา {duration} ชั่วโมง
+                            <span className="hidden md:block">ระยะเวลา</span>{" "}
+                            {duration} ชั่วโมง
                           </label>
                         </div>
 
-                        <p>ราคา</p>
+                        <p className="hidden md:block">ราคา</p>
                         <input
                           type="number"
-                          className="w-3/12 border-2 rounded-lg p-2 ml-2"
+                          className="w-4/12 md:w-3/12 border-2 rounded-lg p-2 ml-2"
                           value={
                             room.durations != null
                               ? room.durations.filter(
@@ -332,7 +339,7 @@ export const SettingRoom = () => {
                 </div>
                 <div className="flex justify-between">
                   <button
-                    className="bg-red-300 font-medium hover:bg-red-400 rounded-full duration-300 p-2 px-4"
+                    className="w-28 bg-red-300 font-medium hover:bg-red-400 rounded-full duration-300 p-2 px-4"
                     onClick={() => deleteRoom(room.roomId)}
                   >
                     ลบห้อง
@@ -340,14 +347,14 @@ export const SettingRoom = () => {
                   {room.branchToRoomId === 0 ? (
                     <button
                       onClick={() => submitBtn("create", room.branchToRoomId)}
-                      className="bg-green-300 font-medium hover:bg-green-400 rounded-full duration-300 p-2 px-4"
+                      className="w-28 bg-green-300 font-medium hover:bg-green-400 rounded-full duration-300 p-2 px-4"
                     >
                       สร้างห้องใหม่
                     </button>
                   ) : (
                     <button
                       onClick={() => submitBtn("update", room.branchToRoomId)}
-                      className="bg-green-300 font-medium hover:bg-green-400 rounded-full duration-300 p-2 px-4"
+                      className="w-28 bg-green-300 font-medium hover:bg-green-400 rounded-full duration-300 p-2 px-4"
                     >
                       บันทึก
                     </button>

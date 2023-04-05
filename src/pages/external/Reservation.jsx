@@ -1,15 +1,21 @@
 import { useState, useEffect, useContext } from "react";
 import { ContextUserId } from "../../App";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Reservation = () => {
   const { userId } = useContext(ContextUserId);
   const [dataReserves, setDataReserves] = useState([]);
+  const navigate = useNavigate();
+
   console.log("userId", userId);
 
   useEffect(() => {
-    Object.keys(userId).length > 0 && getData();
+    try {
+      Object.keys(userId).length > 0 && userId.role === "user" && getData();
+    } catch (error) {
+      navigate("/user/login");
+    }
   }, [userId]);
 
   const getData = () => {
@@ -43,7 +49,7 @@ export const Reservation = () => {
     <div className="w-full h-full flex justify-center text-font-primary font-prompt text-sm md:mx-auto p-4 pt-20 md:py-20">
       <div className="w-full lg:w-10/12 flex flex-col gap-y-8">
         <div className="header">
-          <h1 className="text-2xl">Hi, {userId.name}</h1>
+          <h1 className="text-2xl">Hi, {userId?.name}</h1>
         </div>
         <div>
           <p>Your Co-Working Space Reservation</p>
