@@ -1,5 +1,3 @@
 {
-  "rewrites": [
-    { "source": "/:path/login", "destination": "/pages/login" }
-  ]
+  "rewrites": [{ "src": "/[^.]+", "dest": "/", "status": 200 }]
 }
