@@ -273,7 +273,9 @@ export const Reserve = () => {
         });
     };
 
-    userId.role === "user" ? reserve() : navigate("/user/login");
+    userId != null && userId.role === "user"
+      ? reserve()
+      : navigate("/user/login");
   };
 
   const todayAndNextDayHour = (year, month, date, time) => {
