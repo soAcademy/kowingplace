@@ -208,7 +208,7 @@ export const SettingTime = () => {
                     <th className="hidden md:table-cell px-6 py-3">No.</th>
                     <th className="px-6 py-3">Day</th>
                     <th className="px-6 py-3">Open / Closed</th>
-                    <th className="px-6 py-3">24Hrs</th>
+                    <th className="px-6 py-3">24Hrs(n/a)</th>
                     <th className="px-6 py-3">Open Time</th>
                     <th className="px-6 py-3">Closed Time</th>
                   </tr>

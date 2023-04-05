@@ -224,6 +224,12 @@ export const Calendar = ({ selectDateTime, setSelectDateTime, dayOpen }) => {
                       key: r.key,
                     })
                   }
+                  disabled={
+                    todayAndNextDay(r.year, r.month, r.date) &&
+                    dayOffTime(r.day)
+                      ? false
+                      : true
+                  }
                 >
                   <div
                     className={`w-12 h-12 flex justify-center items-center ${
